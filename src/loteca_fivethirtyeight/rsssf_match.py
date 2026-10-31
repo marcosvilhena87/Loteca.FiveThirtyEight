@@ -15,7 +15,7 @@ from pathlib import Path
 RSSSF_FIELDS = ("date","home","away","home_goals","away_goals","competition","source_url")
 OUTPUT = ("concurso","jogo","data_loteca","mandante_loteca","visitante_loteca",
           "placar_loteca","estado","motivo","competicao","fonte_url",
-          "aliases_utilizados","candidatos","elo_liberado")
+          "aliases_utilizados","candidatos","elo_liberado","categoria_excecao","detalhes_excecao")
 # IDs explícitos: não unir homônimos nem equipes B sem autorização.
 ALIASES = {
     "FLAMENGO/RJ":"flamengo_rj","FLAMENGO":"flamengo_rj",
@@ -62,19 +62,33 @@ def load_csv(path, fields):
         return list(reader)
 
 def match_all(loteca, rsssf):
-    index=defaultdict(list)
-    for r in rsssf:
+    """Classifica evidências sem inventar a competição do registro Loteca.
+
+    Divergência de placar só é apontada para mesma data e mesmas equipes.
+    Divergência de data só é apontada para mesmas equipes e mesmo placar,
+    exigindo ocorrência única. Sem fixture correspondente, trata-se de
+    partida fora do escopo das fontes carregadas, não de erro no CSV.
+    """
+    exact=defaultdict(list)
+    by_fixture=defaultdict(list)
+    by_date_fixture=defaultdict(list)
+    by_fixture_score=defaultdict(list)
+    for src in rsssf:
         try:
-            d=date_iso(r["date"])
-            h,a=ALIASES.get(norm(r["home"])),ALIASES.get(norm(r["away"]))
-            g1,g2=int(r["home_goals"]),int(r["away_goals"])
-            if min(g1,g2)<0: raise ValueError("gols negativos")
-            if not r["competition"].strip() or not r["source_url"].startswith("https://"):
+            d=date_iso(src["date"])
+            h,a=ALIASES.get(norm(src["home"])),ALIASES.get(norm(src["away"]))
+            hg,ag=int(src["home_goals"]),int(src["away_goals"])
+            comp=src["competition"].strip()
+            url=src["source_url"].strip()
+            if min(hg,ag)<0 or not (h and a) or h==a or not comp or not url.startswith("https://"):
                 continue
-            if h and a and h!=a:
-                index[(d,h,a,g1,g2)].append(r)
-        except (ValueError,KeyError):
+        except (ValueError,KeyError,TypeError):
             continue
+        record=(d,h,a,hg,ag,comp,url)
+        exact[(d,h,a,hg,ag)].append(record)
+        by_fixture[(h,a)].append(record)
+        by_date_fixture[(d,h,a)].append(record)
+        by_fixture_score[(h,a,hg,ag)].append(record)
     seen=Counter((r["concurso"].strip(),r["jogo"].strip()) for r in loteca)
     output=[]
     for r in loteca:
@@ -83,32 +97,63 @@ def match_all(loteca, rsssf):
                     mandante_loteca=r["equipe_1"],visitante_loteca=r["equipe_2"],
                     placar_loteca=f'{r["gols_1"]}-{r["gols_2"]}',
                     estado="pendente",motivo="",competicao="",fonte_url="",
-                    aliases_utilizados="",candidatos="0",elo_liberado="nao")
+                    aliases_utilizados="",candidatos="0",elo_liberado="nao",
+                    categoria_excecao="",detalhes_excecao="")
+        def fail(category,detail):
+            result["categoria_excecao"]=category
+            result["motivo"]=detail
+            result["detalhes_excecao"]=detail
         if seen[key]>1:
-            result["motivo"]="chave concurso+jogo duplicada"
+            fail("duplicidade","chave concurso+jogo duplicada")
         elif norm(r.get("sorteio",""))=="SIM":
-            result["motivo"]="sorteio loterico sem placar esportivo comprovado"
+            fail("sorteio","sorteio loterico sem resultado esportivo comprovado")
         else:
             try:
                 d=date_iso(r["data_jogo"])
+                hg,ag=int(r["gols_1"]),int(r["gols_2"])
+                if min(hg,ag)<0:
+                    raise ValueError("placar negativo")
                 h=ALIASES.get(norm(r["equipe_1"]))
                 a=ALIASES.get(norm(r["equipe_2"]))
-                if not h or not a or h==a:
-                    result["motivo"]="alias ausente ou identidade ambigua"
+                if not h or not a:
+                    missing=[x for x,ident in ((r["equipe_1"],h),(r["equipe_2"],a)) if not ident]
+                    fail("alias_ausente","alias nao cadastrado: "+", ".join(missing))
+                elif h==a:
+                    fail("identidade_ambigua","mandante e visitante resolvem para mesma entidade")
                 else:
                     result["aliases_utilizados"]=h+" | "+a
-                    candidates=index.get((d,h,a,int(r["gols_1"]),int(r["gols_2"])),[])
-                    unique={(c["competition"],c["source_url"]) for c in candidates}
-                    result["candidatos"]=str(len(unique))
-                    if len(unique)==1:
-                        comp,url=next(iter(unique))
-                        result.update(estado="confirmado",motivo="correspondencia estrita por data mando identidade placar e competicao",competicao=comp,fonte_url=url)
-                    elif len(unique)>1:
-                        result["motivo"]="multiplas evidencias/competicoes: revisao humana"
+                    matches=exact.get((d,h,a,hg,ag),[])
+                    comps={x[5] for x in matches}
+                    result["candidatos"]=str(len(matches))
+                    if len(comps)>1:
+                        fail("conflito_fontes","mesma partida atribuida a multiplas competicoes: "+", ".join(sorted(comps)))
+                    elif matches:
+                        # Fontes redundantes da mesma competição não geram conflito.
+                        result.update(estado="confirmado",motivo="correspondencia estrita por data mando identidade placar e competicao",
+                                      competicao=next(iter(comps)),fonte_url=sorted(x[6] for x in matches)[0])
                     else:
-                        result["motivo"]="nenhuma correspondencia estrita; revisar datas placar e fonte"
-            except (ValueError,KeyError):
-                result["motivo"]="data ou placar invalido"
+                        same_day=by_date_fixture.get((d,h,a),[])
+                        same_score=by_fixture_score.get((h,a,hg,ag),[])
+                        known=by_fixture.get((h,a),[])
+                        if same_day and len({x[5] for x in same_day})>1:
+                            fail("conflito_fontes","fontes divergem sobre competicao do mesmo confronto e data")
+                        elif same_day:
+                            scores=sorted({f"{x[3]}-{x[4]}" for x in same_day})
+                            fail("divergencia_placar","mesma data e equipes com placar diferente: "+", ".join(scores))
+                            result["competicao"]=same_day[0][5]
+                            result["fonte_url"]=same_day[0][6]
+                        elif len({(x[0],x[5]) for x in same_score})==1 and same_score:
+                            fail("divergencia_data","mesmas equipes e placar com data diferente: "+same_score[0][0])
+                            result["competicao"]=same_score[0][5]
+                            result["fonte_url"]=same_score[0][6]
+                        elif same_score:
+                            fail("conflito_fontes","multiplas datas ou competicoes possiveis para mesmo confronto e placar")
+                        elif known:
+                            fail("revisao_humana","equipes identificadas em outros encontros, sem correspondencia segura de data ou placar")
+                        else:
+                            fail("fora_escopo","confronto nao encontrado nas competicoes RSSSF carregadas")
+            except (ValueError,KeyError,TypeError):
+                fail("entrada_invalida","data ou placar invalido")
         output.append(result)
     return output
 
