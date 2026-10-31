@@ -10,6 +10,7 @@ import urllib.request
 from collections import defaultdict
 from pathlib import Path
 from html import unescape
+from .club_identity import resolve, read_registry
 
 ALIASES = {
  "S PAULO": "SAO PAULO", "SAO PAULO FC":"SAO PAULO",
@@ -115,19 +116,28 @@ def download_catalog(manifest: Path, destination: Path):
             w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
     return len(rows)
 
-def match_games(games, references, max_days=3):
+def match_games(games, references, max_days=3, registry=None):
     index=defaultdict(list)
     for r in references:
-        key=(normalize(r["home"]),normalize(r["away"]),int(r["goals_home"]),int(r["goals_away"]))
+        year=int(r["year"])
+        ids=(resolve(r["home"],year,registry),resolve(r["away"],year,registry)) if registry is not None else (None,None)
+        key=(*ids,int(r["goals_home"]),int(r["goals_away"])) if registry is not None else (normalize(r["home"]),normalize(r["away"]),int(r["goals_home"]),int(r["goals_away"]))
         index[key].append(r)
     for game in games:
         original=dict(game)
         home,away=normalize(game["equipe_1"]),normalize(game["equipe_2"])
         goals=(int(game["gols_1"]),int(game["gols_2"]))
         day=parse_date(game.get("data_jogo",""))
+        year_date=day or parse_date(game.get("data_apuracao",""))
+        game_year=year_date.year if year_date else None
+        ids=(resolve(game["equipe_1"],game_year,registry),resolve(game["equipe_2"],game_year,registry)) if registry is not None and game_year else (None,None)
+        unresolved=registry is not None and (not game_year or None in ids)
+        original["home_club_id"]=ids[0] or ""
+        original["away_club_id"]=ids[1] or ""
         candidates=[]
-        for ref in index.get((home,away,*goals),[]):
-            if not compatible_identity(game["equipe_1"],ref["home"]) or not compatible_identity(game["equipe_2"],ref["away"]):
+        key=(*ids,*goals) if registry is not None else (home,away,*goals)
+        for ref in ([] if unresolved else index.get(key,[])):
+            if registry is None and (not compatible_identity(game["equipe_1"],ref["home"]) or not compatible_identity(game["equipe_2"],ref["away"])):
                 continue
             try: refdate=dt.date.fromisoformat(ref["date"]) if ref.get("date") else None
             except ValueError: refdate=None
@@ -142,7 +152,8 @@ def match_games(games, references, max_days=3):
             candidates.append((delta,ref))
         candidates.sort(key=lambda x:(x[0] is None,x[0] if x[0] is not None else 999,x[1]["url"]))
         unique={(r["url"],r["competition"],r.get("date",""),r["home"],r["away"]) for _,r in candidates}
-        if not candidates: status="PENDENTE_RSSSF"
+        if unresolved: status="ALIAS_NAO_RESOLVIDO"
+        elif not candidates: status="PENDENTE_RSSSF"
         elif len(unique)>1: status="AMBIGUO"
         elif candidates[0][0] is None: status="REVISAO_DATA"
         elif candidates[0][1].get("category","PRINCIPAL").upper()!="PRINCIPAL":status="OUTRA_CATEGORIA"
@@ -160,10 +171,28 @@ def cli():
     p.add_argument("--catalog",type=Path,required=True,help="RSSSF catalog.csv")
     p.add_argument("--output",type=Path,required=True)
     p.add_argument("--days",type=int,default=3)
+    p.add_argument("--registry",type=Path)
+    p.add_argument("--alias-review",type=Path)
     args=p.parse_args()
     games=[g for path in sorted(args.source.glob("Loteca_*.csv")) for g in load_loteca(path)]
     with args.catalog.open(encoding="utf-8-sig",newline="") as f: refs=list(csv.DictReader(f))
-    result=list(match_games(games,refs,args.days))
+    registry=read_registry(args.registry) if args.registry else None
+    result=list(match_games(games,refs,args.days,registry))
+    if args.alias_review:
+        args.alias_review.parent.mkdir(parents=True,exist_ok=True)
+        review=defaultdict(lambda: {"count":0,"examples":[]})
+        for game,row in zip(games,result):
+            if row["status_rsssf"]!="ALIAS_NAO_RESOLVIDO":continue
+            year_date=parse_date(game.get("data_jogo","")) or parse_date(game.get("data_apuracao",""))
+            for side,field in (("home","equipe_1"),("away","equipe_2")):
+                if not row[side+"_club_id"]:
+                    key=(game[field],year_date.year if year_date else "")
+                    review[key]["count"]+=1
+                    if len(review[key]["examples"])<3:review[key]["examples"].append(str(game["concurso"])+"/"+str(game["jogo"]))
+        with args.alias_review.open("w",encoding="utf-8",newline="") as f:
+            w=csv.writer(f,delimiter=";");w.writerow(["alias_original","ano","ocorrencias","exemplos_concurso_jogo","status"])
+            for (alias,year),info in sorted(review.items(),key=lambda x:(-x[1]["count"],x[0])):
+                w.writerow([alias,year,info["count"],",".join(info["examples"]),"REVISAO_MANUAL"])
     args.output.parent.mkdir(parents=True,exist_ok=True)
     with args.output.open("w",encoding="utf-8",newline="") as f:
         w=csv.DictWriter(f,fieldnames=list(result[0].keys()),delimiter=";");w.writeheader();w.writerows(result)
