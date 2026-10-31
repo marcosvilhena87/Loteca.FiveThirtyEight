@@ -45,3 +45,7 @@ def test_categorias_excecao():
 def test_sem_inventar_divergencia_por_encontros_distintos():
     rec = match_all([game()],[source(date="2002-02-19",home_goals="9")])[0]
     assert rec["categoria_excecao"] == "revisao_humana"
+
+def test_outra_temporada_nao_e_divergencia_data():
+    rec=match_all([game(data_jogo="domingo, 17/02/2003")],[source()])[0]
+    assert rec["categoria_excecao"]=="fora_escopo"
