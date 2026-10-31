@@ -1,0 +1,70 @@
+[
+  {
+    "id": "br2002_a",
+    "url": "https://www.rsssfbrasil.com/tablesae/br2002.htm",
+    "competition": "Campeonato Brasileiro Série A 2002",
+    "year": 2002,
+    "date_start": "2002-08-01",
+    "date_end": "2002-12-31"
+  },
+  {
+    "id": "br2002_b",
+    "url": "https://www.rsssfbrasil.com/tablesae/br2002l2.htm",
+    "competition": "Campeonato Brasileiro Série B 2002",
+    "year": 2002,
+    "date_start": "2002-08-01",
+    "date_end": "2002-12-31"
+  },
+  {
+    "id": "es2002_03",
+    "url": "https://www.rsssf.org/tabless/span03.html",
+    "competition": "Primera División Espanha 2002/03",
+    "year": 2002,
+    "season_split": true,
+    "date_start": "2002-08-01",
+    "date_end": "2003-06-30",
+    "expected_matches": 380
+  },
+  {
+    "id": "it2002_03",
+    "url": "https://www.rsssf.org/tablesi/ital03.html",
+    "competition": "Serie A Italia 2002/03",
+    "year": 2002,
+    "season_split": true,
+    "date_start": "2002-08-01",
+    "date_end": "2003-06-30",
+    "expected_matches": 306
+  },
+  {
+    "id": "rj2003",
+    "url": "https://www.rsssfbrasil.com/tablesr/rj2003.htm",
+    "competition": "Campeonato Carioca 2003",
+    "year": 2003,
+    "date_start": "2003-01-01",
+    "date_end": "2003-12-31"
+  },
+  {
+    "id": "sp2003",
+    "url": "https://www.rsssfbrasil.com/tablessz/sp2003.htm",
+    "competition": "Campeonato Paulista 2003",
+    "year": 2003,
+    "date_start": "2003-01-01",
+    "date_end": "2003-12-31"
+  },
+  {
+    "id": "mg2003",
+    "url": "https://www.rsssfbrasil.com/tablesfq/mg2003.htm",
+    "competition": "Campeonato Mineiro 2003",
+    "year": 2003,
+    "date_start": "2003-01-01",
+    "date_end": "2003-12-31"
+  },
+  {
+    "id": "df2003",
+    "url": "https://www.rsssfbrasil.com/tablesae/df2003.htm",
+    "competition": "Campeonato Brasiliense 2003",
+    "year": 2003,
+    "date_start": "2003-01-01",
+    "date_end": "2003-12-31"
+  }
+]
