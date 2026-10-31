@@ -98,5 +98,21 @@
     "year": 2003,
     "date_start": "2003-01-01",
     "date_end": "2003-12-31"
+  },
+  {
+    "id": "sp2002_b1",
+    "url": "https://mail.rsssfbrasil.com/tablessz/sp2002l4.htm",
+    "competition": "Campeonato Paulista Série B1 2002",
+    "year": 2002,
+    "date_start": "2002-04-01",
+    "date_end": "2002-12-31"
+  },
+  {
+    "id": "go2003",
+    "url": "https://www.rsssfbrasil.com/tablesfq/go2003.htm",
+    "competition": "Campeonato Goiano 2003",
+    "year": 2003,
+    "date_start": "2003-01-01",
+    "date_end": "2003-12-31"
   }
 ]
