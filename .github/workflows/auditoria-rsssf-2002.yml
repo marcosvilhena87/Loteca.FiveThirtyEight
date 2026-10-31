@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - feature/extratores-rsssf-2002
+      - feature/diagnostico-escopo-aliases-sulminas
   workflow_dispatch:
 jobs:
   extract-and-cross:
@@ -15,7 +16,7 @@ jobs:
       - name: Instalar projeto
         run: python -m pip install -e . pytest
       - name: Testes de regressao
-        run: python -m pytest -q tests/test_rsssf_extractors.py tests/test_rsssf_match.py
+        run: python -m pytest -q tests/test_rsssf_extractors.py tests/test_rsssf_match.py tests/test_exception_report.py
       - name: Baixar Loteca e extrair RSSSF
         run: |
           mkdir -p reports data/cache_loteca
@@ -26,12 +27,16 @@ jobs:
           with open('reports/rsssf_extraido.csv', encoding='utf-8') as fh:
               rows=list(csv.DictReader(fh,delimiter=';'))
           counts=Counter(x['competition'] for x in rows)
-          assert len(rows)==158, f'Total extraido inesperado: {len(rows)}'
+          assert len(rows)==283, f'Total extraido inesperado: {len(rows)}'
           assert counts['Torneio Rio-São Paulo 2002']==126, counts
           assert counts['Copa dos Campeões 2002']==32, counts
+          assert counts['Copa Sul-Minas 2002']==125, counts
           print('Contagens validadas:', dict(counts))
           PY
           python -m loteca_fivethirtyeight.rsssf_match --loteca data/fixtures/Loteca_0001-0100.csv --rsssf reports/rsssf_extraido.csv --output reports/cruzamento_0001_0100.csv
+      - name: Diagnosticar aliases e escopo
+        run: |
+          python -m loteca_fivethirtyeight.exception_report --matches reports/cruzamento_0001_0100.csv --rsssf reports/rsssf_extraido.csv --out reports/excecoes_anotadas.csv --summary reports/aliases_prioritarios.json
       - name: Consolidar resultados e excecoes
         if: success()
         run: |

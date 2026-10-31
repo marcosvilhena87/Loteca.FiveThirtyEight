@@ -14,6 +14,7 @@ from pathlib import Path
 
 SOURCES = {
     "rio_sp_2002": ("https://www.rsssf.org/tablesr/riospl02.html", "Torneio Rio-São Paulo 2002"),
+    "sul_minas_2002": ("https://www.rsssf.org/tabless/sulminas02.html", "Copa Sul-Minas 2002"),
     "copa_campeoes_2002": ("https://www.rsssf.org/tablesb/brazchampcup02.html", "Copa dos Campeões 2002"),
 }
 COLUMNS = ("date", "home", "away", "home_goals", "away_goals",
@@ -73,7 +74,7 @@ def parse_lines(lines, competition_key):
     for raw in lines:
         line = raw.strip()
         upper = line.upper()
-        if competition_key == "rio_sp_2002":
+        if competition_key in ("rio_sp_2002","sul_minas_2002"):
             rm = ROUND.fullmatch(line)
             if rm:
                 started = True
@@ -82,6 +83,11 @@ def parse_lines(lines, competition_key):
                 current_date = None
                 continue
             if not started:
+                continue
+            if upper in ("MOVED MATCHES","MOVED MATCH"):
+                # Partidas remarcadas mantêm sua própria data; não inferir rodada.
+                round_number = "Adiada"
+                current_date = None
                 continue
             if upper in ("SEMI-FINALS", "SEMIFINALS", "FINALS", "FINAL"):
                 phase = "Semifinais" if "SEMI" in upper else "Final"
@@ -98,7 +104,7 @@ def parse_lines(lines, competition_key):
                         date(2002, month, int(mdates["second"])).isoformat()
                     )
                     continue
-                legs = TWO_LEGS.fullmatch(line)
+                legs = TWO_LEGS.fullmatch(re.sub(r"\s*\[pen\s+\d+-\d+\]\s*$", "", line, flags=re.I))
                 if legs and two_dates:
                     home, away = legs["home"].strip(), legs["away"].strip()
                     scores = (
@@ -145,6 +151,9 @@ def parse_lines(lines, competition_key):
                            home_goals=h, away_goals=a, competition=comp,
                            source_url=url, phase=phase, round=round_number,
                            evidence_level="B"))
+    # Sul-Minas: Atlético-MG x Pelotas foi interrompido em 2-2 e
+    # posteriormente homologado 1-0 por decisão administrativa.
+    # A linha 'awd' é intencionalmente excluída: não é placar jogado.
     # Fail closed when RSSSF layout changed or page was not an expected competition.
     if not output:
         raise ValueError(f"Não foi possível extrair partidas de {competition_key}")
