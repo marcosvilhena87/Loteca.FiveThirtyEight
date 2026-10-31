@@ -59,6 +59,34 @@ def parse_page(html_text,year,split,competition,url):
       "home_goals":m["hg"],"away_goals":m["ag"],"competition":competition,
       "source_url":url,"source_line":no})
  return rows,format_kind(txt),warnings
+def extract_league_rounds(html_text,year,competition,url,expected_rounds,per_round):
+ p=Page();p.feed(html_text);text=p.text()
+ first=re.search(r"(?m)^\s*Round 1\s*$",text)
+ if not first:return [],"unsupported",[{"reason":"missing_first_round"}],{}
+ text=text[first.start():]
+ blocks=re.split(r"(?m)^\s*Round (\d+)\s*$",text)
+ rows=[];warnings=[];counts={};seen=set()
+ for i in range(1,len(blocks)-1,2):
+  n=int(blocks[i])
+  if not 1<=n<=expected_rounds:break
+  if n in counts:
+   warnings.append({"reason":"repeated_round","round":n});break
+  section=blocks[i+1]
+  if n==expected_rounds:
+   section=re.split(r"(?im)^\s*(?:Second Level|Second Division|Segunda|Coppa Italia|Copa del Rey|Cup Competition|Promotion|Relegation Playoff)\b",section)[0]
+  extracted,_,problems=parse_page(section,year,True,competition,url)
+  counts[n]=len(extracted)
+  warnings.extend({**w,"round":n} for w in problems)
+  for x in extracted:
+   x["round"]=n
+   key=(x["date"],x["home"].casefold(),x["away"].casefold())
+   if key in seen:warnings.append({"reason":"duplicate_fixture","round":n})
+   else:seen.add(key);rows.append(x)
+ if len(counts)!=expected_rounds:warnings.append({"reason":"missing_rounds","found":len(counts),"expected":expected_rounds})
+ for n in range(1,expected_rounds+1):
+  if counts.get(n)!=per_round:warnings.append({"reason":"round_count_mismatch","round":n,"actual":counts.get(n,0),"expected":per_round})
+ return rows,"league_rounds",warnings,counts
+
 def fetch(url,timeout=25):
  p=urlparse(url)
  if p.scheme!="https" or p.hostname not in ("www.rsssf.org","rsssf.org","www.rsssfbrasil.com","rsssfbrasil.com","mail.rsssfbrasil.com"):
@@ -79,23 +107,28 @@ def ingest(spec,archive,offline=False):
    status="fallback_archive"
  if not path.exists():return {"id":name,"status":"missing_archive","rows":0,"url":spec["url"]}
  raw=path.read_bytes();sha=hashlib.sha256(raw).hexdigest()
- rows,kind,warnings=parse_page(decode(raw),spec["year"],spec.get("season_split",False),spec["competition"],spec["url"])
+ if spec.get("rounds"):
+  rows,kind,warnings,round_counts=extract_league_rounds(decode(raw),spec["year"],spec["competition"],spec["url"],spec["rounds"],spec["matches_per_round"])
+ else:
+  rows,kind,warnings=parse_page(decode(raw),spec["year"],spec.get("season_split",False),spec["competition"],spec["url"])
+  round_counts={}
  expected=spec.get("expected_matches")
  issues=[]
  if not rows:issues.append("zero_matches")
  if expected is not None and len(rows)!=expected:issues.append("expected_count_mismatch")
- if kind!="dated_round_lines":issues.append("format_unsupported_or_incomplete")
+ if kind not in ("dated_round_lines","league_rounds"):issues.append("format_unsupported_or_incomplete")
+ if any(w.get("reason") in ("missing_rounds","round_count_mismatch","repeated_round","duplicate_fixture") for w in warnings):issues.append("round_integrity_failure")
  if len({(x["date"],x["home"],x["away"]) for x in rows})!=len(rows):issues.append("duplicate_fixture")
  dates=[x["date"] for x in rows]
  if spec.get("date_start") and any(x<spec["date_start"] for x in dates):issues.append("date_before_range")
  if spec.get("date_end") and any(x>spec["date_end"] for x in dates):issues.append("date_after_range")
  rec={"id":name,"url":spec["url"],"status":status,"sha256":sha,"bytes":len(raw),
    "format":kind,"rows":len(rows),"expected_matches":expected,"issues":issues,
-   "warnings":warnings[:100],"integrity":"pass" if not issues else "review"}
+   "round_counts":round_counts,"warnings":warnings[:100],"integrity":"pass" if not issues else "review"}
  (folder/"metadata.json").write_text(json.dumps(rec,ensure_ascii=False,indent=2),encoding="utf-8")
  with (folder/"matches.csv").open("w",newline="",encoding="utf-8") as fp:
-  writer=csv.DictWriter(fp,fieldnames=["date","home","away","home_goals","away_goals","competition","source_url","source_line"],delimiter=";")
-  writer.writeheader();writer.writerows(rows)
+  writer=csv.DictWriter(fp,fieldnames=["date","home","away","home_goals","away_goals","competition","source_url","source_line","round"],delimiter=";")
+  writer.writeheader();writer.writerows([{**r,"round":r.get("round","")} for r in rows])
  return rec
 def main():
  ap=argparse.ArgumentParser()
