@@ -23,7 +23,6 @@ def parse_europe(text,competition,season_end,url):
             if first.lower() in line.lower():began=True
             continue
         if round_seen and re.search(r"^(?:Copa del Rey|Cup Tournaments|FA Cup|Coppa Italia|Segunda Divisi|Championship|Serie B)\b",line,re.I):break
-        if round_seen and re.search(r"^(?:Copa del Rey|Cup Tournaments|FA Cup|Coppa Italia|Segunda Divisi|Championship|Serie B)\b",line,re.I):break
         round_match=re.search(r"^Round\s+(\d+)\b",line,re.I)
         if round_match:
             round_no=int(round_match[1]);round_seen=True
@@ -34,7 +33,7 @@ def parse_europe(text,competition,season_end,url):
             year=season_end-1 if month>=7 else season_end
             try:day=date(year,month,int(m[2])).isoformat()
             except ValueError:day=None
-            continue
+            if not round_match:continue
         score=EURO_RESULT.match(raw)
         if not (score and day and round_seen and round_no is not None and 1<=round_no<=38):continue
         home,g1,g2,away=score.groups()
