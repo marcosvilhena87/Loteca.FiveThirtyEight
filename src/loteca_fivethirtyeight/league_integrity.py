@@ -53,3 +53,4 @@ if __name__=="__main__":
         issues=list(csv.DictReader(f,delimiter=";"))
     from collections import Counter
     print("ISSUE TOP:",Counter((r["competition"],r["reason"],r["home"],r["away"]) for r in issues).most_common(25))
+    print("ITALY ISSUES:",[(r["reason"],r["home"],r["away"]) for r in issues if r["competition"]=="Serie A Italia"])
