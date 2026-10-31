@@ -39,7 +39,7 @@ def main():
  sources=[]
  for report in reports:
   path=root/report["id"]/"matches.csv"
-  if path.exists():sources.extend(x for x in read(path) if x.get("result_type","played")=="played")
+  if path.exists() and report.get("integrity")=="pass":sources.extend(x for x in read(path) if x.get("result_type","played")=="played")
  caixa=[x for x in read(a.caixa) if 32<=int(x["concurso"])<=50]
  match_results=run(caixa,sources,aliases)
  items=[]
