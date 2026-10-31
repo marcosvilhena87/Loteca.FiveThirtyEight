@@ -1,0 +1,6 @@
+alias;clube_candidato;pais;documento;decisao;motivo
+BARCELONA;FC Barcelona;ESP;https://www.fcbarcelona.com/fcbarcelona/document/2021/10/18/1bd43c55-795b-46bc-8a3b-446ec48782a0/ESTATUTS_ENG.pdf;QUARENTENA_CONTEXTO;Nome sem pais pode ter homonimos
+JUVENTUS;Juventus Football Club;ITA;https://www.juventus.com/en/club/history/the-story-of-a-legend;QUARENTENA_CONTEXTO;Exige confronto e competicao para excluir homonimos
+LIVERPOOL;Liverpool FC;ENG;https://www.liverpoolfc.com/info/how-liverpool-fc-was-founded-1892;QUARENTENA_CONTEXTO;Exige pais e torneio para evitar homonimos
+MILAN;AC Milan;ITA;https://www.acmilan.com/en/history;QUARENTENA_CONTEXTO;Nome abreviado exige confirmacao contextual
+MACAE/RJ;Macae Esporte Futebol Clube;BRA;https://www.fferj.com.br/clubes/maca-efc;ID_UNICO_PROVISORIO;Registro de clube no estado RJ

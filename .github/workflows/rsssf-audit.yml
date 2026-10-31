@@ -1,0 +1,60 @@
+name: RSSSF audit
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'audit/rsssf-historico-2026-10-31'
+    paths:
+      - 'src/loteca_fivethirtyeight/rsssf_match.py'
+      - 'src/loteca_fivethirtyeight/rsssf_index.py'
+      - 'src/loteca_fivethirtyeight/club_identity.py'
+      - 'src/loteca_fivethirtyeight/contextual_identity.py'
+      - 'tests/test_contextual_identity.py'
+      - 'tests/test_club_identity.py'
+      - 'tests/test_rsssf_match.py'
+      - 'auditoria/rsssf/manifest_2002.csv'
+      - '.github/workflows/rsssf-audit.yml'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e . pytest
+      - run: pytest tests/test_rsssf_match.py tests/test_club_identity.py tests/test_contextual_identity.py -q
+      - name: Build season-competition candidate index
+        run: |
+          python -m loteca_fivethirtyeight.rsssf_index --source data/caixa_original --output /tmp/rsssf_cache/candidate_competitions.csv --verify --limit 200 --workers 6
+      - name: Download and parse catalog
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from loteca_fivethirtyeight.rsssf_match import download_catalog
+          print('Reference matches parsed:', download_catalog(Path('auditoria/rsssf/manifest_2002.csv'),Path('/tmp/rsssf_cache')))
+          PY
+      - name: Match all Loteca records
+        run: |
+          python -m loteca_fivethirtyeight.rsssf_match --source data/caixa_original --catalog /tmp/rsssf_cache/rsssf_catalog.csv --output /tmp/rsssf_cache/resultado.csv --registry auditoria/rsssf/club_registry.csv --alias-review /tmp/rsssf_cache/aliases_revisao_manual.csv
+      - name: Export contextual evidence candidates
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          from loteca_fivethirtyeight.rsssf_match import load_loteca
+          from loteca_fivethirtyeight.club_identity import read_registry
+          from loteca_fivethirtyeight.contextual_identity import export_contextual
+          games=[g for path in sorted(Path('data/caixa_original').glob('Loteca_*.csv')) for g in load_loteca(path)]
+          with Path('/tmp/rsssf_cache/rsssf_catalog.csv').open(encoding='utf-8-sig') as f: refs=list(csv.DictReader(f))
+          print('Contextual:',export_contextual(games,refs,read_registry('auditoria/rsssf/club_registry.csv'),'/tmp/rsssf_cache/contextual_identity_review.csv'))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rsssf-audit-evidence
+          path: /tmp/rsssf_cache/
+          if-no-files-found: warn
