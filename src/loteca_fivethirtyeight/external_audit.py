@@ -29,7 +29,7 @@ OUTPUT_FIELDS = ("chave", "concurso", "jogo", "data_iso", "mandante", "visitante
                  "placar", "classificacao", "competicao", "equipe_principal",
                  "elegivel_elo", "confianca", "evidencia_url", "evidencia_titulo",
                  "motivo", "risco", "consulta_url", "fonte_csv")
-BASE_MARKERS = re.compile(r"\b(SUB[\s-]?(?:15|17|18|19|20|21|23)|U[\s-]?(?:15|17|18|19|20|21|23)|JUNIOR(?:ES)?|COPINHA|BASE)\b", re.I)
+BASE_MARKERS = re.compile(r"\b(SUB[\s-]?(?:15|17|18|19|20|21|23)|U[\s-]?(?:15|17|18|19|20|21|23)|COPINHA|BASE)\b", re.I)
 FEMALE_MARKERS = re.compile(r"\b(FEMININ[OA]|WOMEN|LADIES)\b", re.I)
 OTHER_MARKERS = re.compile(r"\b(FUTSAL|BEACH SOCCER|FUTEBOL DE AREIA)\b", re.I)
 RESERVE_MARKERS = re.compile(r"\b(RESERVAS?|EQUIPE B|TEAM B|SEGUNDA EQUIPE)\b", re.I)
