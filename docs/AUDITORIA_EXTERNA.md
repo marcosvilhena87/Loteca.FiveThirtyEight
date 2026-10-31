@@ -28,3 +28,16 @@ Arquivos de saída: auditoria_completa.csv, excecoes.csv, resumo.json e RELATORI
 - Não guardar tokens no Git. O relatório é uma triagem reproduzível, não uma certificação automática de todos os jogos.
 
 Próximo passo: integrar súmulas e tabelas oficiais de CBF/federações e adicionar revisão humana auditável para liberar cada partida ao Elo.
+
+
+## Identificação canônica e confronto com federação
+
+O módulo `identity.py` cria IDs distintos por UF e equipe (principal, B, Sub-20). Não elimina o marcador B/juvenil nem une Botafogo-RJ, Botafogo-SP e Botafogo-PB. Aliases não registrados recebem ID vazio, exigindo revisão; não há merge por similaridade.
+
+A execução também produz `aliases_por_partida.csv`. Marcadores explícitos de base/B bloqueiam o Elo independentemente da pesquisa orgânica. **O padrão 'JUNIOR' não deve classificar automaticamente 'BOCA JUNIOR/SE' como futebol de base.**
+
+Registro de evidências oficiais em `data/evidencias/competicoes_verificadas.csv`:
+- FPF, agenda oficial da Copinha de 06/01/2018 (Tubarão-SC x Fluminense-RJ): https://futebolpaulista.com.br/Noticias/Detalhe.aspx?Noticia=5161
+- FPF, retrospecto mencionando equipes B: https://futebolpaulista.com.br/Noticias/Detalhe.aspx?Noticia=15175
+
+A consulta à fonte oficial confirma a categoria da **competição e o confronto** no caso da Copinha, mas não equivale à localização da súmula. O placar 3x2 é corroborado por notícia secundária. Para registros antigos, a ausência de súmula permanece documentada; não presumir validação integral.
