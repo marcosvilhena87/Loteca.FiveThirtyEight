@@ -35,7 +35,7 @@ def parse_europe(text,competition,season_end,url):
             except ValueError:day=None
             if not round_match:continue
         score=EURO_RESULT.match(raw)
-        if not (score and day and round_seen and round_no is not None and 1<=round_no<=38):continue
+        if not (score and round_seen and round_no is not None and 1<=round_no<=38):continue
         home,g1,g2,away=score.groups()
         if not re.search(r"[A-Za-z]",home+away):continue
         if per_round.get(round_no,0)>=10:continue
@@ -43,7 +43,7 @@ def parse_europe(text,competition,season_end,url):
         if match_key in seen:continue
         seen.add(match_key);per_round[round_no]=per_round.get(round_no,0)+1
         yield dict(home=home.strip(),away=away.strip(),goals_home=int(g1),goals_away=int(g2),
-                   date=day,competition=competition,category="PRINCIPAL",url=url,line=lineno,year=season_end)
+                   date=day or "",competition=competition,category="PRINCIPAL",url=url,line=lineno,year=season_end)
 
 def parse_fifa(text,year,url):
     for lineno,line in enumerate(text.splitlines(),1):
@@ -77,8 +77,10 @@ def run(manifest,out):
             text=unescape(re.sub(r"<[^>]*>","",re.sub(r"(?i)<br\s*/?>","\n",raw.decode("utf-8",errors="replace"))))
             got=parse_page(text,entry)
             row["parsed_games"]=len(got)
+            row["missing_dates"]=sum(not r["date"] for r in got)
+            row["unique_fixtures"]=len({(r["home"],r["away"]) for r in got})
             expected=380 if entry["competition"] in ("La Liga","Premier League","Serie A Italia") else None
-            row["status"]=("COUNT_MISMATCH_QUARANTINE" if expected is not None and len(got)!=expected else "PARSED_NEEDS_REVIEW") if got else "NO_MATCHES_PARSED"
+            row["status"]=("COUNT_MISMATCH_QUARANTINE" if expected is not None and (len(got)!=expected or row["missing_dates"] or row["unique_fixtures"]!=expected) else "PARSED_NEEDS_REVIEW") if got else "NO_MATCHES_PARSED"
             refs+=got
         except Exception as e: row["status"]="FETCH_OR_PARSE_ERROR";row["error"]=str(e)[:150]
         audit.append(row)
