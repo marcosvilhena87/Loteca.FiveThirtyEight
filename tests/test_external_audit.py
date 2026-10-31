@@ -1,4 +1,4 @@
-from loteca538.external_audit import classify, evidence_match, parse_date, write_reports
+from loteca_fivethirtyeight.external_audit import classify, evidence_match, parse_date, write_reports
 
 def row(**kwargs):
     d = dict(concurso="1201", jogo="3", data_jogo="sábado, 05/07/2025", equipe_1="ITUANO/SP", equipe_2="RETRO BRASIL/PE", gols_1="2", gols_2="0", resultado_placar="1", sorteio="Não", _file="Loteca_1201-1300.csv")
