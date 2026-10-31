@@ -6,6 +6,9 @@ on:
       - 'audit/rsssf-historico-2026-10-31'
     paths:
       - 'src/loteca_fivethirtyeight/rsssf_match.py'
+      - 'src/loteca_fivethirtyeight/rsssf_index.py'
+      - 'src/loteca_fivethirtyeight/club_identity.py'
+      - 'tests/test_club_identity.py'
       - 'tests/test_rsssf_match.py'
       - 'auditoria/rsssf/manifest_2002.csv'
       - '.github/workflows/rsssf-audit.yml'
@@ -21,10 +24,10 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install -e . pytest
-      - run: pytest tests/test_rsssf_match.py -q
+      - run: pytest tests/test_rsssf_match.py tests/test_club_identity.py -q
       - name: Build season-competition candidate index
         run: |
-          python -m loteca_fivethirtyeight.rsssf_index --source data/caixa_original --output /tmp/rsssf_cache/candidate_competitions.csv
+          python -m loteca_fivethirtyeight.rsssf_index --source data/caixa_original --output /tmp/rsssf_cache/candidate_competitions.csv --verify --limit 200 --workers 6
       - name: Download and parse catalog
         run: |
           python - <<'PY'
