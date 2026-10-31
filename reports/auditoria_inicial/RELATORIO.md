@@ -60,3 +60,18 @@ Fonte: 13 CSVs da branch main de marcosvilhena87/Loteca/dados.
 
 ## Política de liberação
 Nenhum jogo foi liberado por esta auditoria. Necessário cruzar competição + categoria + jogo + data com fonte oficial, dar identidade de clube e registrar o URL e método da validação. Não interpretar 'Não Demonstrado' como 'Não' confirmado.
+
+## Pesquisa externa direcionada — achados documentados
+
+1. **Concurso 24, jogo 14 (2002)**: Montenegro/SP x Ponte Preta B/SP. Campo sorteio='SIM', sem data de jogo. A RSSSF Brasil identifica a equipe Ponte Preta Sumaré como **equipe B** da Ponte Preta e registra que os jogos envolvendo Montenegro foram cancelados. **Bloqueio definitivo para Elo de equipes principais quanto a este registro**, por sorteio e categoria B. Confiança alta para bloqueio; fonte histórica secundária para identidade: https://www.rsssfbrasil.com/tablessz/sp2002l5.htm
+2. **Concurso 781, jogo 7 (06/01/2018)**: Tubarão-SC 3x2 Fluminense-RJ. Partida da Copa São Paulo de Futebol Júnior (Copinha), competição Sub-20, confirmada por cobertura contemporânea com data e placar. **Excluir Elo principal**. Fontes independentes: https://www.lance.com.br/fluminense/fluminense-perde-virada-para-tubarao-fica-vice-lideranca-grupo.html e https://www.opovo.com.br/esportes/futebol/times/fluminense/2018/01/amp/fluminense-e-surpreendido-na-copinha-pelo-tubarao-sc.html
+3. **Concursos 20, 21, 24, 25, 26 e 81**: múltiplas entradas com Palmeiras B, Corinthians B, Ponte Preta B, São Paulo B ou São Caetano B; **revisão e exclusão preventiva do Elo principal**. Algumas partidas ainda requerem conferência individual em fontes oficiais.
+4. **Concurso 393, jogo 1 (13/12/2009)**: Fluminense Sub-20 x Cruzeiro Sub-20 (1x1); indicação explícita de base no CSV; **excluir preventivamente** até identificação de competição e confirmação externa do confronto.
+5. **Marcador Boca Junior/SE** não é sinônimo de categoria júnior: o filtro simples gerou falso positivo e deve ser aprimorado.
+
+### Hierarquia probatória
+- CAIXA confirma apenas natureza lotérica do sorteio (https://loterias.caixa.gov.br/Paginas/regras-sorteios.aspx).
+- Fonte oficial organizadora (CBF, Federação Paulista, CONMEBOL etc.) é desejável para certificar campeonato e categoria. Não foram obtidas súmulas oficiais das partidas históricas exemplificadas acima.
+- RSSSF e imprensa contemporânea sustentam a triagem histórica, mas não devem ser relatadas como súmulas oficiais.
+
+**Status final:** varredura estrutural integral dos 17.836 registros concluída; pesquisa externa direcionada nos casos citados; NÃO foi realizada pesquisa individual externa de todos os jogos por indisponibilidade de credencial de busca em lote. Nenhuma partida é liberada ao Elo.
