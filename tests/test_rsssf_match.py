@@ -33,3 +33,15 @@ def test_conflict_and_duplicate():
 
 def test_no_swap_of_home_away():
     assert match_all([game()],[source(home="São Caetano",away="Santos")])[0]["estado"]=="pendente"
+
+def test_categorias_excecao():
+    assert match_all([game(equipe_1="CLUBE NAO MAPEADO")],[source()])[0]["categoria_excecao"] == "alias_ausente"
+    assert match_all([game()],[source(home="Palmeiras")])[0]["categoria_excecao"] == "fora_escopo"
+    assert match_all([game()],[source(home_goals="3")])[0]["categoria_excecao"] == "divergencia_placar"
+    assert match_all([game()],[source(date="2002-02-18")])[0]["categoria_excecao"] == "divergencia_data"
+    assert match_all([game()],[source(),source(competition="Outro torneio")])[0]["categoria_excecao"] == "conflito_fontes"
+    assert match_all([game()],[source(),source(source_url="https://rsssf.org/alternativa")])[0]["estado"] == "confirmado"
+
+def test_sem_inventar_divergencia_por_encontros_distintos():
+    rec = match_all([game()],[source(date="2002-02-19",home_goals="9")])[0]
+    assert rec["categoria_excecao"] == "revisao_humana"
