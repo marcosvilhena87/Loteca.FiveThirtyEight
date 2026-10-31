@@ -74,6 +74,7 @@ def extract_league_rounds(html_text,year,competition,url,expected_rounds,per_rou
    warnings.append({"reason":"repeated_round","round":n});break
   section=blocks[i+1]
   if n==expected_rounds:
+   section=section.split("Final Table:",1)[0]
    section=re.split(r"(?im)^\s*(?:Final Table:|Second Level|Second Division|Segunda|Coppa Italia|Copa del Rey|Cup Competition|Promotion|Relegation Playoff)\b",section)[0]
   extracted,_,problems=parse_page(section,year,True,competition,url)
   if expected_rounds==34 and n==12 and re.search(r"(?im)^\s*Como\s+awd\s+Udinese\b",section):
