@@ -115,7 +115,10 @@ def ingest(spec,archive,offline=False):
  if spec.get("rounds"):
   rows,kind,warnings,round_counts=extract_league_rounds(decode(raw),spec["year"],spec["competition"],spec["url"],spec["rounds"],spec["matches_per_round"])
  else:
-  rows,kind,warnings=parse_page(decode(raw),spec["year"],spec.get("season_split",False),spec["competition"],spec["url"])
+  raw_text=decode(raw)
+  if spec["id"] in ("br2002_a","br2002_b"):
+   raw_text=raw_text.split("Quarterfinals",1)[0]
+  rows,kind,warnings=parse_page(raw_text,spec["year"],spec.get("season_split",False),spec["competition"],spec["url"])
   round_counts={}
  if spec["id"] in ("br2002_a","br2002_b"):
   from audits.rsssf.extract_knockouts import extract_knockouts
