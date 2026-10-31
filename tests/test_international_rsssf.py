@@ -18,3 +18,12 @@ def test_single_space_after_long_team_name():
     assert len(rows)==1
     assert rows[0]["home"]=="Wolverhampton"
     assert rows[0]["goals_home"]==2
+
+def test_abandoned_and_resumed_match_not_counted_twice():
+    text=("Serie A\nRound 14\n[Dec 1]\n"
+          "Fiorentina      abd Inter           [abandoned at 0-0 in 16' due to medical\n"
+          "Lecce           1-1 Juventus         emergency Fiorentina player Edoardo Bove]\n"
+          "[Feb 6]\nFiorentina      3-0 Inter           [remaining 74']")
+    rows=list(parse_europe(text,"Serie A Italia",2025,"https://rsssf.org/tablesi/ital2025.html"))
+    assert [(x["home"],x["away"],x["date"]) for x in rows]==[
+        ("Lecce","Juventus","2024-12-01"),("Fiorentina","Inter","2025-02-06")]
