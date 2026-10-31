@@ -14,7 +14,7 @@ FIFA_RESULT=re.compile(r"^\s*(\d{1,2})-\s*(\d{1,2})-(\d{2})\s+(.+?)\s{2,}(.+?)\s
 
 def parse_europe(text,competition,season_end,url):
     # Only first-tier league section. Cups and lower divisions must not leak in.
-    first={"La Liga":"Primera División","Premier League":"Premier League","Serie A Italia":"Serie A"}[competition]
+    first={"La Liga":"Primera Divisi","Premier League":"Premier League","Serie A Italia":"Serie A"}[competition]
     lines=text.splitlines()
     began=False;day=None;round_seen=False
     for lineno,raw in enumerate(lines,1):
@@ -67,7 +67,7 @@ def run(manifest,out):
             req=urllib.request.Request(entry["url"],headers={"User-Agent":"LotecaAuditResearch/1.0"})
             with urllib.request.urlopen(req,timeout=20) as response:
                 raw=response.read()
-            text=unescape(re.sub(r"<[^>]*>","",re.sub(r"(?i)<br\s*/?>","\n",raw.decode("latin-1",errors="replace"))))
+            text=unescape(re.sub(r"<[^>]*>","",re.sub(r"(?i)<br\s*/?>","\n",raw.decode("utf-8",errors="replace"))))
             got=parse_page(text,entry)
             row["parsed_games"]=len(got)
             row["status"]="PARSED_NEEDS_REVIEW" if got else "NO_MATCHES_PARSED"
