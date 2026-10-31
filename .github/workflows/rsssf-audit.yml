@@ -37,7 +37,7 @@ jobs:
           PY
       - name: Match all Loteca records
         run: |
-          python -m loteca_fivethirtyeight.rsssf_match --source data/caixa_original --catalog /tmp/rsssf_cache/rsssf_catalog.csv --output /tmp/rsssf_cache/resultado.csv
+          python -m loteca_fivethirtyeight.rsssf_match --source data/caixa_original --catalog /tmp/rsssf_cache/rsssf_catalog.csv --output /tmp/rsssf_cache/resultado.csv --registry auditoria/rsssf/club_registry.csv --alias-review /tmp/rsssf_cache/aliases_revisao_manual.csv
       - uses: actions/upload-artifact@v4
         if: always()
         with:
