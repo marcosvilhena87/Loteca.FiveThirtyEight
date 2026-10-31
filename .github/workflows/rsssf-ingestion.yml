@@ -26,6 +26,8 @@ jobs:
           python-version: "3.11"
       - name: Download RSSSF sources and validate integrity
         run: python -m audits.rsssf.ingest_sources --manifest audits/rsssf/sources_2002_2003.json --archive data/rsssf_archive
+      - name: Reconcile 266 Caixa records with extracted seasons
+        run: python -m audits.rsssf.run_reconciliation --archive data/rsssf_archive --caixa audits/rsssf/caixa_0032_0050.csv --aliases audits/rsssf/aliases_temporais.csv
       - name: Publish per-season integrity summary
         if: always()
         run: |
