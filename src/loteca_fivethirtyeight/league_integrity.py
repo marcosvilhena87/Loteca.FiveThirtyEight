@@ -47,4 +47,9 @@ if __name__=="__main__":
     import sys,json
     def read(p):
         with open(p,encoding="utf-8-sig",newline="") as f:return list(csv.DictReader(f,delimiter=";"))
-    print(json.dumps(export_audit(read(sys.argv[1]),read(sys.argv[2]),sys.argv[3]),ensure_ascii=False))
+    stats=export_audit(read(sys.argv[1]),read(sys.argv[2]),sys.argv[3])
+    print(json.dumps(stats,ensure_ascii=False))
+    with open(Path(sys.argv[3])/"league_integrity_issues.csv",encoding="utf-8") as f:
+        issues=list(csv.DictReader(f,delimiter=";"))
+    from collections import Counter
+    print("ISSUE TOP:",Counter((r["competition"],r["reason"],r["home"],r["away"]) for r in issues).most_common(25))
