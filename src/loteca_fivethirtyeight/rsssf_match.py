@@ -26,7 +26,10 @@ ALIASES = {
 }
 STATES = {"AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MG","MS","MT","PA","PB","PE","PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO"}
 DATE_RE = re.compile(r"(\d{2})/(\d{2})/(\d{4})")
-MATCH_RE = re.compile(r"^\s*([\wÀ-ÿ ./'()–-]+?)\s+(\d{1,2})\s*[-–]\s*(\d{1,2})\s+([\wÀ-ÿ ./'()–-]+?)\s*$")
+MATCH_RE = re.compile(r"^\\s*(.+?)\\s{2,}(\\d{1,2})\\s*[-–]\\s*(\\d{1,2})\\s+(.+?)\\s*$")
+MONTH_RE = re.compile(r"\\[\\s*([A-Za-z]{3})\\s+(\\d{1,2})\\s*\\]")
+SCORE_RE = re.compile(r"^\\s*(.+?)\\s{2,}(\\d{1,2})\\s*[-–]\\s*(\\d{1,2})\\s+(.+?)\\s*$")
+
 
 def normalize(name: str) -> str:
     name = unicodedata.normalize("NFKD", name.upper())
@@ -50,24 +53,27 @@ def load_loteca(path: Path):
             yield record
 
 def parse_rsssf_text(text: str, *, competition: str, url: str, year: int, category: str = "PRINCIPAL"):
-    """Aceita tabelas RSSSF em formato texto: cabeçalho [Feb 17] e partidas A 2-1 B.
-    Confrontos sem data permanecem sem data: não presumir rodada/dia.
+    """Lê linhas RSSSF pré-formatadas; recusa linhas de classificação e comentários.
+    Suporta [Feb 17], [Dec 31], placares A   2-4  B e nomes com /UF.
+    Não inventa datas: ausência de cabeçalho gera data vazia.
     """
     current = None
-    month_map = {m:i for i,m in enumerate(("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"),1)}
-    for line_no,line in enumerate(text.splitlines(),1):
-        date_match = re.search(r"\[\s*([A-Za-z]{3})\s+(\d{1,2})\s*\]",line)
-        if date_match and date_match[1].title() in month_map:
-            month,day=month_map[date_match[1].title()],int(date_match[2])
-            try: current=dt.date(year,month,day)
-            except ValueError: current=None
+    months = {m:i for i,m in enumerate(("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"),1)}
+    for line_no, line in enumerate(text.splitlines(), 1):
+        dm = MONTH_RE.search(line)
+        if dm and dm[1].title() in months:
+            try: current = dt.date(year, months[dm[1].title()], int(dm[2]))
+            except ValueError: current = None
             continue
-        match = MATCH_RE.match(line)
-        if match:
-            home,ga,gb,away = match.groups()
-            yield {"home":home, "away":away,"goals_home":int(ga),"goals_away":int(gb),
-                   "date":current.isoformat() if current else "","competition":competition,
-                   "category":category,"url":url,"line":line_no,"year":year}
+        m = SCORE_RE.match(line)
+        if not m: continue
+        home, ga, gb, away = m.groups()
+        home, away = home.strip(), away.strip()
+        if home.startswith("[") or away.startswith("[") or not re.search(r"[A-Za-zÀ-ÿ]",home+away):
+            continue
+        yield {"home":home,"away":away,"goals_home":int(ga),"goals_away":int(gb),
+               "date":current.isoformat() if current else "","competition":competition,
+               "category":category,"url":url,"line":line_no,"year":year}
 
 def html_to_text(html: str) -> str:
     html=re.sub(r"<(?:br|/p|/div)\b[^>]*>", "\n", html, flags=re.I)
