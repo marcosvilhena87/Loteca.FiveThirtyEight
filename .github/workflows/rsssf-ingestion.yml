@@ -30,6 +30,15 @@ jobs:
         run: python -m audits.rsssf.run_reconciliation --archive data/rsssf_archive --caixa audits/rsssf/caixa_0032_0050.csv --aliases audits/rsssf/aliases_temporais.csv
       - name: Diagnose unresolved Caixa rows
         run: python -m audits.rsssf.diagnose_missing --archive data/rsssf_archive --caixa audits/rsssf/caixa_0032_0050.csv --aliases audits/rsssf/aliases_temporais.csv
+      - name: Print unresolved cases for audit
+        run: |
+          python - <<'PY'
+          import csv
+          path="data/rsssf_archive/diagnostico_sem_candidato_0032_0050.csv"
+          with open(path,encoding="utf-8-sig",newline="") as f:
+            for r in csv.DictReader(f,delimiter=";"):
+              print("EXCEPTION",r["concurso"],r["jogo"],r["mandante_caixa"],r["placar_caixa"],r["visitante_caixa"],r["categoria_provisoria"],r["evidencias_json"][:250])
+          PY
       - name: Publish per-season integrity summary
         if: always()
         run: |
