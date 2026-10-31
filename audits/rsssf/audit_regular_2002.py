@@ -28,4 +28,6 @@ def main():
  out.write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding="utf-8")
  for k,v in summary.items():
   print("ROUND_ROBIN_AUDIT",k,json.dumps(v,ensure_ascii=False))
+  if v["regular_rows"]!=325 or v["unique_unordered_fixtures"]!=325 or v["distinct_names"]!=26 or v["counts_unequal_25"] or v["duplicate_pairs"] or v["phase_counts"]!={"league":325,"quarterfinal":8,"semifinal":4,"final":2}:
+   raise SystemExit("Brazilian historical fixture integrity failed for "+k)
 if __name__=="__main__":main()
