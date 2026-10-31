@@ -117,6 +117,11 @@ def ingest(spec,archive,offline=False):
  else:
   rows,kind,warnings=parse_page(decode(raw),spec["year"],spec.get("season_split",False),spec["competition"],spec["url"])
   round_counts={}
+ if spec["id"] in ("br2002_a","br2002_b"):
+  from audits.rsssf.extract_knockouts import extract_knockouts
+  knockout,kw=extract_knockouts(decode(raw),spec["competition"],spec["url"],spec["year"])
+  rows.extend(knockout)
+  warnings.extend(kw)
  expected=spec.get("expected_matches")
  issues=[]
  if not rows:issues.append("zero_matches")
@@ -132,8 +137,8 @@ def ingest(spec,archive,offline=False):
    "round_counts":round_counts,"warnings":warnings[:100],"integrity":"pass" if not issues else "review"}
  (folder/"metadata.json").write_text(json.dumps(rec,ensure_ascii=False,indent=2),encoding="utf-8")
  with (folder/"matches.csv").open("w",newline="",encoding="utf-8") as fp:
-  writer=csv.DictWriter(fp,fieldnames=["date","home","away","home_goals","away_goals","competition","source_url","source_line","round","result_type"],delimiter=";")
-  writer.writeheader();writer.writerows([{**r,"round":r.get("round",""),"result_type":r.get("result_type","played")} for r in rows])
+  writer=csv.DictWriter(fp,fieldnames=["date","home","away","home_goals","away_goals","competition","source_url","source_line","round","result_type","phase","leg"],delimiter=";")
+  writer.writeheader();writer.writerows([{**r,"round":r.get("round",""),"result_type":r.get("result_type","played"),"phase":r.get("phase","league"),"leg":r.get("leg","")} for r in rows])
  return rec
 def main():
  ap=argparse.ArgumentParser()
