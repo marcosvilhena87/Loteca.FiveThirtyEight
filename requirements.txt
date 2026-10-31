@@ -1,0 +1,2 @@
+# Dependências para desenvolvimento e execução inicial
+pytest>=8,<10
