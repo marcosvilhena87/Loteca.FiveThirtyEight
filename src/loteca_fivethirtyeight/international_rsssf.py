@@ -22,8 +22,8 @@ def parse_europe(text,competition,season_end,url):
         if not began:
             if first.lower() in line.lower():began=True
             continue
-        if round_seen and re.search(r"^(?:Copa del Rey|Cup Tournaments|Coppa Italia|Segunda Divisi|Championship|Serie B)\b",line,re.I):break
-        if round_seen and re.search(r"^(?:Copa del Rey|Cup Tournaments|Coppa Italia|Segunda Divisi|Championship|Serie B)\b",line,re.I):break
+        if round_seen and re.search(r"^(?:Copa del Rey|Cup Tournaments|FA Cup|Coppa Italia|Segunda Divisi|Championship|Serie B)\b",line,re.I):break
+        if round_seen and re.search(r"^(?:Copa del Rey|Cup Tournaments|FA Cup|Coppa Italia|Segunda Divisi|Championship|Serie B)\b",line,re.I):break
         if re.search(r"\bRound\s+\d+\b",line,re.I):round_seen=True
         m=EURO_DATE.search(line)
         if m and m[1].title() in MONTHS:
