@@ -70,5 +70,33 @@
     "year": 2003,
     "date_start": "2003-01-01",
     "date_end": "2003-12-31"
+  },
+  {
+    "id": "eng2002_03",
+    "url": "https://www.rsssf.org/tablese/eng03.html",
+    "competition": "English Premiership 2002/03",
+    "year": 2002,
+    "season_split": true,
+    "date_start": "2002-08-01",
+    "date_end": "2003-06-30",
+    "expected_matches": 380,
+    "rounds": 38,
+    "matches_per_round": 10
+  },
+  {
+    "id": "br2002_c",
+    "url": "https://www.rsssfbrasil.com/tablesae/br2002l3.htm",
+    "competition": "Campeonato Brasileiro Série C 2002",
+    "year": 2002,
+    "date_start": "2002-08-01",
+    "date_end": "2002-12-31"
+  },
+  {
+    "id": "ce2003",
+    "url": "https://mail.rsssfbrasil.com/tablesae/ce2003.htm",
+    "competition": "Campeonato Cearense 2003",
+    "year": 2003,
+    "date_start": "2003-01-01",
+    "date_end": "2003-12-31"
   }
 ]
