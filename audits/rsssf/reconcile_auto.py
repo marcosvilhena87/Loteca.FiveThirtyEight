@@ -24,6 +24,20 @@ def canon(name,day,aliases):
  if len(matches)>1:return "AMBIGUOUS"
  return next(iter(matches)) if matches else ""
 
+def canon_source(name,day,aliases,competition):
+ # Only allow generic historical labels when the *source competition* fixes the club.
+ n=norm(name);c=norm(competition)
+ scoped={
+  "CAMPEONATO MINEIRO 2003":{"ATLETICO":"BR_MG_ATLETICO","AMERICA":"BR_MG_AMERICA","GUARANI":"BR_MG_GUARANI_DIVINOPOLIS","NACIONAL":"BR_MG_NACIONAL_UBERABA","VILLA NOVA":"BR_MG_VILLA_NOVA"},
+  "CAMPEONATO CARIOCA 2003":{"AMERICA":"BR_RJ_AMERICA","VASCO DA GAMA":"BR_RJ_VASCO"},
+  "CAMPEONATO PAULISTA SERIE B1 2002":{"XV DE NOVEMBRO":"BR_SP_XV_CARAGUATATUBA"},
+  "CAMPEONATO BRASILEIRO SERIE B 2002":{"XV DE NOVEMBRO":"BR_SP_XV_PIRACICABA"},
+  "CAMPEONATO PAULISTA 2003":{"INTERNACIONAL":"BR_SP_INTER_LIMEIRA","UNIAO AGRICOLA":"BR_SP_UNIAO_BARBARENSE"},
+  "PRIMERA DIVISION ESPANHA 2002 03":{"ATLETICO":"ES_ATLETICO_MADRID"}
+ }
+ if n in scoped.get(c,{}):return scoped[c][n]
+ return canon(name,day,aliases)
+
 def matches(c,r,aliases):
  if str(c.get("sorteio","")).upper()=="SIM":return []
  d=date(c.get("data_jogo"))
@@ -35,7 +49,7 @@ def matches(c,r,aliases):
   md=date(m["date"])
   if not md or abs((d-md).days)>1:continue
   if str(c["gols_1"])!=str(m["home_goals"]) or str(c["gols_2"])!=str(m["away_goals"]):continue
-  mh=canon(m["home"],md,aliases);ma=canon(m["away"],md,aliases)
+  mh=canon_source(m["home"],md,aliases,m["competition"]);ma=canon_source(m["away"],md,aliases,m["competition"])
   if ch and mh and ch!=mh:continue
   if ca and ma and ca!=ma:continue
   hs=1.0 if ch and mh and ch==mh else SequenceMatcher(None,norm(c["equipe_1"]),norm(m["home"])).ratio()
