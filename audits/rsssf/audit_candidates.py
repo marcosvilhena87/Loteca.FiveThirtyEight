@@ -28,7 +28,7 @@ def audit_row(c,candidates,sources,aliases):
   # A correção é independente da lista de candidatos (limite normal ±1 dia)
   possible=[x for x in sources if x["competition"]=="Campeonato Carioca 2003" and
    x["date"]=="2003-01-16" and x["home_goals"]=="1" and x["away_goals"]=="0" and
-   norm(x["home"])=="VASCO DA GAMA" and norm(x["away"])=="AMERICA"]
+   norm(x["home"])=="VASCO DA GAMA" and norm(x["away"]) in ("AMERICA","AM RICA")]
   if len(possible)==1 and d and d.isoformat()=="2003-01-18" and h=="BR_RJ_VASCO" and a=="BR_RJ_AMERICA":
    m=possible[0];out.update(status="data_rsssf_divergente_documentada",source_url=m["source_url"],
     source_date=m["date"],source_score="1-0",competition=m["competition"],
