@@ -38,12 +38,12 @@ def test_categorias_excecao():
     assert match_all([game(equipe_1="CLUBE NAO MAPEADO")],[source()])[0]["categoria_excecao"] == "alias_ausente"
     assert match_all([game()],[source(home="Palmeiras")])[0]["categoria_excecao"] == "fora_escopo"
     assert match_all([game()],[source(home_goals="3")])[0]["categoria_excecao"] == "divergencia_placar"
-    assert match_all([game()],[source(date="2002-02-18")])[0]["categoria_excecao"] == "divergencia_data"
+    assert match_all([game()],[source(date="2002-02-18"),source(date="2002-02-16",home="Palmeiras",away="Flamengo")])[0]["categoria_excecao"] == "divergencia_data"
     assert match_all([game()],[source(),source(competition="Outro torneio")])[0]["categoria_excecao"] == "conflito_fontes"
     assert match_all([game()],[source(),source(source_url="https://rsssf.org/alternativa")])[0]["estado"] == "confirmado"
 
 def test_sem_inventar_divergencia_por_encontros_distintos():
-    rec = match_all([game()],[source(date="2002-02-19",home_goals="9")])[0]
+    rec = match_all([game()],[source(date="2002-02-19",home_goals="9"),source(date="2002-02-16",home="Palmeiras",away="Flamengo")])[0]
     assert rec["categoria_excecao"] == "revisao_humana"
 
 def test_outra_temporada_nao_e_divergencia_data():
