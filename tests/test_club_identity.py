@@ -31,3 +31,14 @@ def test_frequent_real_registry_examples():
     assert resolve("BOTAFOGO/PB",2025,rows)=="BRA-PB-BOTAFOGO"
     assert resolve("BOTAFOGO",2025,rows) is None
     assert resolve("SAO  CAETANO/SP",2006,rows)=="BRA-SP-SAO-CAETANO"
+
+def test_historical_distinctions():
+    from pathlib import Path
+    from loteca_fivethirtyeight.club_identity import read_registry
+    rows=read_registry(Path("auditoria/rsssf/club_registry.csv"))
+    assert resolve("BRAGANTINO/SP",2018,rows)=="BRA-SP-BRAGANTINO"
+    assert resolve("RED BULL BRAGANTINO/SP",2025,rows)=="BRA-SP-BRAGANTINO"
+    assert resolve("RB BRASIL/SP",2018,rows)=="BRA-SP-RB-BRASIL"
+    assert resolve("NOVORIZONTINO/SP",2025,rows)=="BRA-SP-NOVORIZONTINO-2010"
+    assert resolve("GREMIO ESPORTIVO NOVORIZONTINO/SP",2025,rows) is None
+    assert resolve("ATHLETICO/PR",2025,rows)=="BRA-PR-ATHLETICO"
