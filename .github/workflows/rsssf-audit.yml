@@ -1,0 +1,48 @@
+name: RSSSF audit
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'audit/rsssf-historico-2026-10-31'
+    paths:
+      - 'src/loteca_fivethirtyeight/rsssf_match.py'
+      - 'tests/test_rsssf_match.py'
+      - 'auditoria/rsssf/manifest_2002.csv'
+      - '.github/workflows/rsssf-audit.yml'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e . pytest
+      - run: pytest tests/test_rsssf_match.py -q
+      - name: Download source CSVs without changing them
+        run: |
+          mkdir -p /tmp/loteca_source
+          for i in $(seq 0 12); do
+            start=$(printf '%04d' $((i * 100 + 1)))
+            end=$(printf '%04d' $(((i + 1) * 100)))
+            curl -fLsS --retry 3 "https://raw.githubusercontent.com/marcosvilhena87/Loteca/main/dados/Loteca_${start}-${end}.csv" -o "/tmp/loteca_source/Loteca_${start}-${end}.csv"
+          done
+      - name: Download and parse catalog
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from loteca_fivethirtyeight.rsssf_match import download_catalog
+          print('Reference matches parsed:', download_catalog(Path('auditoria/rsssf/manifest_2002.csv'),Path('/tmp/rsssf_cache')))
+          PY
+      - name: Match all Loteca records
+        run: |
+          python -m loteca_fivethirtyeight.rsssf_match --source /tmp/loteca_source --catalog /tmp/rsssf_cache/rsssf_catalog.csv --output /tmp/rsssf_cache/resultado.csv
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rsssf-audit-evidence
+          path: /tmp/rsssf_cache/
+          if-no-files-found: warn
