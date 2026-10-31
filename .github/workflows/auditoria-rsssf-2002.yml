@@ -27,9 +27,10 @@ jobs:
           with open('reports/rsssf_extraido.csv', encoding='utf-8') as fh:
               rows=list(csv.DictReader(fh,delimiter=';'))
           counts=Counter(x['competition'] for x in rows)
-          assert len(rows)==158, f'Total extraido inesperado: {len(rows)}'
+          assert len(rows)==283, f'Total extraido inesperado: {len(rows)}'
           assert counts['Torneio Rio-São Paulo 2002']==126, counts
           assert counts['Copa dos Campeões 2002']==32, counts
+          assert counts['Copa Sul-Minas 2002']==125, counts
           print('Contagens validadas:', dict(counts))
           PY
           python -m loteca_fivethirtyeight.rsssf_match --loteca data/fixtures/Loteca_0001-0100.csv --rsssf reports/rsssf_extraido.csv --output reports/cruzamento_0001_0100.csv
