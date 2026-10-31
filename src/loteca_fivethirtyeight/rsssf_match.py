@@ -26,9 +26,9 @@ ALIASES = {
 }
 STATES = {"AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MG","MS","MT","PA","PB","PE","PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO"}
 DATE_RE = re.compile(r"(\d{2})/(\d{2})/(\d{4})")
-MATCH_RE = re.compile(r"^\\s*(.+?)\\s{2,}(\\d{1,2})\\s*[-–]\\s*(\\d{1,2})\\s+(.+?)\\s*$")
-MONTH_RE = re.compile(r"\\[\\s*([A-Za-z]{3})\\s+(\\d{1,2})\\s*\\]")
-SCORE_RE = re.compile(r"^\\s*(.+?)\\s+(\\d{1,2})\\s*[-–]\\s*(\\d{1,2})\\s+(.+?)\\s*$")
+MATCH_RE = re.compile(r"^\s*(.+?)\s{2,}(\d{1,2})\s*[-–]\s*(\d{1,2})\s+(.+?)\s*$")
+MONTH_RE = re.compile(r"\[\s*([A-Za-z]{3})\s+(\d{1,2})\s*\]")
+SCORE_RE = re.compile(r"^\s*(.+?)\s+(\d{1,2})\s*[-–]\s*(\d{1,2})\s+(.+?)\s*$")
 
 
 def normalize(name: str) -> str:
@@ -68,7 +68,7 @@ def parse_rsssf_text(text: str, *, competition: str, url: str, year: int, catego
         m = SCORE_RE.match(line)
         if not m: continue
         home, ga, gb, away = m.groups()
-        home, away = home.strip(), re.split(r"\\s+\\[played\\b", away.strip(), flags=re.I)[0].strip()
+        home, away = home.strip(), re.split(r"\s+\[played\b", away.strip(), flags=re.I)[0].strip()
         if home.startswith("[") or away.startswith("[") or not re.search(r"[A-Za-zÀ-ÿ]",home) or not re.search(r"[A-Za-zÀ-ÿ]",away):
             continue
         yield {"home":home,"away":away,"goals_home":int(ga),"goals_away":int(gb),
