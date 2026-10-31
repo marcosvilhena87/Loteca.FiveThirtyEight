@@ -28,6 +28,8 @@ jobs:
         run: python -m audits.rsssf.ingest_sources --manifest audits/rsssf/sources_2002_2003.json --archive data/rsssf_archive
       - name: Reconcile 266 Caixa records with extracted seasons
         run: python -m audits.rsssf.run_reconciliation --archive data/rsssf_archive --caixa audits/rsssf/caixa_0032_0050.csv --aliases audits/rsssf/aliases_temporais.csv
+      - name: Audit Brazilian regular-season fixtures
+        run: python -m audits.rsssf.audit_regular_2002 --archive data/rsssf_archive
       - name: Diagnose unresolved Caixa rows
         run: python -m audits.rsssf.diagnose_missing --archive data/rsssf_archive --caixa audits/rsssf/caixa_0032_0050.csv --aliases audits/rsssf/aliases_temporais.csv
       - name: Print unresolved cases for audit
