@@ -31,6 +31,20 @@ MONTH_RE = re.compile(r"\[\s*([A-Za-z]{3})\s+(\d{1,2})\s*\]")
 SCORE_RE = re.compile(r"^\s*(.+?)\s+(\d{1,2})\s*[-–]\s*(\d{1,2})\s+(.+?)\s*$")
 
 
+def state_code(name: str):
+    m = re.search(r"/([A-Z]{2})$", name.strip().upper())
+    return m[1] if m and m[1] in STATES else None
+
+AMBIGUOUS_NAMES = {"AMERICA", "BOTAFOGO", "FLUMINENSE", "ATLETICO", "NACIONAL", "RIO BRANCO", "OPERARIO", "JUVENTUS", "PORTUGUESA"}
+
+def compatible_identity(source: str, reference: str) -> bool:
+    a, b = state_code(source), state_code(reference)
+    if a and b and a != b:
+        return False
+    if normalize(source) in AMBIGUOUS_NAMES and (not a or not b):
+        return False
+    return True
+
 def normalize(name: str) -> str:
     name = unicodedata.normalize("NFKD", name.upper())
     name = "".join(c for c in name if not unicodedata.combining(c))
@@ -113,6 +127,8 @@ def match_games(games, references, max_days=3):
         day=parse_date(game.get("data_jogo",""))
         candidates=[]
         for ref in index.get((home,away,*goals),[]):
+            if not compatible_identity(game["equipe_1"],ref["home"]) or not compatible_identity(game["equipe_2"],ref["away"]):
+                continue
             try: refdate=dt.date.fromisoformat(ref["date"]) if ref.get("date") else None
             except ValueError: refdate=None
             if day and refdate:
