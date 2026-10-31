@@ -8,6 +8,8 @@ on:
       - 'tests/test_external_audit.py'
       - 'tests/test_identity.py'
       - 'src/loteca_fivethirtyeight/identity.py'
+      - 'src/loteca_fivethirtyeight/official_fixtures.py'
+      - 'tests/test_official_fixtures.py'
       - '.github/workflows/auditoria-externa.yml'
 jobs:
   audit:
@@ -22,7 +24,7 @@ jobs:
       - name: Instalar e testar
         run: |
           python -m pip install -e . pytest
-          pytest -q tests/test_external_audit.py tests/test_identity.py
+          pytest -q tests/test_external_audit.py tests/test_identity.py tests/test_official_fixtures.py
       - name: Gerar relatorio
         env:
           SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
@@ -32,10 +34,14 @@ jobs:
           else
             python -m loteca_fivethirtyeight.external_audit --output reports/auditoria_externa
           fi
+      - name: Cruzar fixtures oficiais cadastrados
+        run: python -m loteca_fivethirtyeight.official_fixtures --output reports/conferencia_oficial
       - name: Publicar artefatos
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: auditoria-loteca
-          path: reports/auditoria_externa/
+          path: |
+            reports/auditoria_externa/
+            reports/conferencia_oficial/
           if-no-files-found: warn
