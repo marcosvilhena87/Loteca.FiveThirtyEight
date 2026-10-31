@@ -1,0 +1,106 @@
+concurso;jogo;mandante;visitante;data_jogo;motivo;risco;fonte_csv;linha
+13;5;DEPORTIVO;REAL MADRID;;sorteio_sim;critico;Loteca_0001-0100.csv;174
+20;1;SANTA CRUZ/PE;NAUTICO/PE;;sorteio_sim;critico;Loteca_0001-0100.csv;268
+24;14;MONTENEGRO/SP;PONTE PRETA B/SP;;sorteio_sim;critico;Loteca_0001-0100.csv;337
+25;13;ATLETICO/PB;CAMPINENSE/PB;;sorteio_sim;critico;Loteca_0001-0100.csv;350
+31;8;AMERICA/MG;SAO RAIMUNDO/AM;;sorteio_sim;critico;Loteca_0001-0100.csv;429
+38;12;FERNANDOPOLIS/SP;GUARULHOS/SP;;sorteio_sim;critico;Loteca_0001-0100.csv;531
+43;1;REAL MADRID;SEVILLA;;sorteio_sim;critico;Loteca_0001-0100.csv;590
+44;13;TORINO;ATALANTA;;sorteio_sim;critico;Loteca_0001-0100.csv;616
+56;13;AMERICA/SP;PONTE PRETA/SP;;sorteio_sim;critico;Loteca_0001-0100.csv;784
+56;14;GREMIO/RS;CAXIAS/RS;;sorteio_sim;critico;Loteca_0001-0100.csv;785
+57;8;PONTE PRETA/SP;MARILIA/SP;;sorteio_sim;critico;Loteca_0001-0100.csv;793
+136;8;SANTA CRUZ/PE;ITUANO/SP;;sorteio_sim;critico;Loteca_0101-0200.csv;499
+137;11;SAO  CAETANO/SP;PARANA/PR;;sorteio_sim;critico;Loteca_0101-0200.csv;516
+152;10;ATHLETICO/PR;PARANAVAI/PR;;sorteio_sim;critico;Loteca_0101-0200.csv;725
+204;8;REMO/PA;ANANINDEUA/PA;;sorteio_sim;critico;Loteca_0201-0300.csv;51
+205;9;SANTA CRUZ/PE;SPORT/PE;;sorteio_sim;critico;Loteca_0201-0300.csv;66
+207;3;JUAZEIRO/BA;VITORIA/BA;;sorteio_sim;critico;Loteca_0201-0300.csv;88
+207;9;COLO COLO/BA;FLUMINENSE/BA;;sorteio_sim;critico;Loteca_0201-0300.csv;94
+227;9;BRASILIENSE/DF;MARILIA/SP;;sorteio_sim;critico;Loteca_0201-0300.csv;374
+249;3;AMERICANO/RJ;FLAMENGO/RJ;;sorteio_sim;critico;Loteca_0201-0300.csv;676
+252;6;GREMIO/RS;BRASIL/RS;;sorteio_sim;critico;Loteca_0201-0300.csv;721
+259;5;ATLETICO/GO;GOIAS/GO;;sorteio_sim;critico;Loteca_0201-0300.csv;818
+260;4;GAMA/DF;CEILANDIA/DF;;sorteio_sim;critico;Loteca_0201-0300.csv;831
+270;2;VASCO/RJ;FLAMENGO/RJ;;sorteio_sim;critico;Loteca_0201-0300.csv;969
+270;14;BOTAFOGO/RJ;CORINTHIANS/SP;;sorteio_sim;critico;Loteca_0201-0300.csv;981
+289;14;JUVENTUDE/RS;SAO PAULO/SP;;sorteio_sim;critico;Loteca_0201-0300.csv;1247
+298;12;ITUIUTABA/MG;CRUZEIRO/MG;;sorteio_sim;critico;Loteca_0201-0300.csv;1371
+307;5;VILA NOVA/GO;CRAC/GO;;sorteio_sim;critico;Loteca_0301-0400.csv;90
+308;9;JUVENTUDE/RS;INTER SM/RS;;sorteio_sim;critico;Loteca_0301-0400.csv;108
+325;8;CONFIANCA/SE;SERGIPE/SE;;sorteio_sim;critico;Loteca_0301-0400.csv;345
+327;8;ATLETICO/GO;ITUMBIARA/GO;;sorteio_sim;critico;Loteca_0301-0400.csv;373
+370;1;CORINTHIANS/SP;FLUMINENSE/RJ;;sorteio_sim;critico;Loteca_0301-0400.csv;968
+426;2;SANTOS/SP;INTERNACIONAL/RS;;sorteio_sim;critico;Loteca_0401-0500.csv;353
+447;8;FERROVIARIO/CE;ICASA/CE;;sorteio_sim;critico;Loteca_0401-0500.csv;653
+458;11;SERRA/ES;VITORIA/ES;;sorteio_sim;critico;Loteca_0401-0500.csv;810
+462;8;TREZE/PB;CAMPINENSE/PB;;sorteio_sim;critico;Loteca_0401-0500.csv;863
+478;3;SANTOS/SP;BOTAFOGO/RJ;;sorteio_sim;critico;Loteca_0401-0500.csv;1082
+512;5;RIO BRANCO/AC;SALGUEIRO/PE;;sorteio_sim;critico;Loteca_0501-0600.csv;160
+512;8;FORTALEZA/CE;AGUIA/PA;;sorteio_sim;critico;Loteca_0501-0600.csv;163
+522;1;FLAMENGO/RJ;ATLETICO/MG;;sorteio_sim;critico;Loteca_0501-0600.csv;296
+531;9;MACAE/RJ;MADUREIRA/RJ;;sorteio_sim;critico;Loteca_0501-0600.csv;430
+543;8;CAXIAS/RS;INTERNACIONAL/RS;;sorteio_sim;critico;Loteca_0501-0600.csv;597
+552;1;VASCO DA GAMA/RJ;BOTAFOGO/RJ;;sorteio_sim;critico;Loteca_0501-0600.csv;716
+567;8;ATLETICO/MG;PONTE PRETA/SP;;sorteio_sim;critico;Loteca_0501-0600.csv;933
+590;8;PONTE PRETA/SP;ITUANO/SP;;sorteio_sim;critico;Loteca_0501-0600.csv;1255
+591;14;BOTAFOGO/PB;NAUTICO/PE;;sorteio_sim;critico;Loteca_0501-0600.csv;1275
+598;2;MOGI MIRIM/SP;PAULISTA/SP;;sorteio_sim;critico;Loteca_0501-0600.csv;1361
+606;5;SAMPAIO CORREA/MA;AVAI/SC;;sorteio_sim;critico;Loteca_0601-0700.csv;76
+607;3;SPORT/PE;BAHIA/BA;;sorteio_sim;critico;Loteca_0601-0700.csv;88
+607;7;NAUTICO/PE;VASCO DA GAMA/RJ;;sorteio_sim;critico;Loteca_0601-0700.csv;92
+617;7;SANTA CRUZ/PE;BRAGANTINO/SP;;sorteio_sim;critico;Loteca_0601-0700.csv;232
+633;9;CORINTHIANS/SP;CRICIUMA/SC;;sorteio_sim;critico;Loteca_0601-0700.csv;458
+633;10;FIGUEIRENSE/SC;INTERNACIONAL/RS;;sorteio_sim;critico;Loteca_0601-0700.csv;459
+636;12;CAMPINENSE/PB;AUTO ESPORTE/PB;;sorteio_sim;critico;Loteca_0601-0700.csv;503
+636;14;BOTAFOGO/PB;TREZE/PB;;sorteio_sim;critico;Loteca_0601-0700.csv;505
+640;7;TREZE/PB;ATLETICO/PB;;sorteio_sim;critico;Loteca_0601-0700.csv;554
+649;7;BRASILIA/DF;LUZIANIA/GO;;sorteio_sim;critico;Loteca_0601-0700.csv;680
+650;12;AUTO ESPORTE/PB;TREZE/PB;;sorteio_sim;critico;Loteca_0601-0700.csv;699
+660;12;CONFIANCA/SE;VILA NOVA/GO;;sorteio_sim;critico;Loteca_0601-0700.csv;839
+674;12;NIGERIA;SOMALIA;;sorteio_sim;critico;Loteca_0601-0700.csv;1035
+690;6;FRIBURGUENSE/RJ;FLUMINENSE/RJ;;sorteio_sim;critico;Loteca_0601-0700.csv;1253
+692;12;CRUZEIRO/MG;UBERLANDIA/MG;;sorteio_sim;critico;Loteca_0601-0700.csv;1287
+697;9;METROPOLITANO/SC;CRICIUMA/SC;;sorteio_sim;critico;Loteca_0601-0700.csv;1354
+730;1;VITORIA/BA;PALMEIRAS/SP;;sorteio_sim;critico;Loteca_0701-0800.csv;408
+730;2;FLUMINENSE/RJ;INTERNACIONAL/RS;;sorteio_sim;critico;Loteca_0701-0800.csv;409
+730;3;GREMIO/RS;BOTAFOGO/RJ;;sorteio_sim;critico;Loteca_0701-0800.csv;410
+730;4;ATHLETICO/PR;FLAMENGO/RJ;;sorteio_sim;critico;Loteca_0701-0800.csv;411
+730;5;CRUZEIRO/MG;CORINTHIANS/SP;;sorteio_sim;critico;Loteca_0701-0800.csv;412
+730;10;SPORT/PE;FIGUEIRENSE/SC;;sorteio_sim;critico;Loteca_0701-0800.csv;417
+730;11;SANTOS/SP;AMERICA/MG;;sorteio_sim;critico;Loteca_0701-0800.csv;418
+730;12;PONTE PRETA/SP;CORITIBA/PR;;sorteio_sim;critico;Loteca_0701-0800.csv;419
+730;13;SAO PAULO/SP;SANTA CRUZ/PE;;sorteio_sim;critico;Loteca_0701-0800.csv;420
+730;14;CHAPECOENSE/SC;ATLETICO/MG;;sorteio_sim;critico;Loteca_0701-0800.csv;421
+733;8;SANTA CRUZ/RN;GLOBO/RN;;sorteio_sim;critico;Loteca_0701-0800.csv;457
+733;10;POTIGUAR/RN;BARAUNAS/RN;;sorteio_sim;critico;Loteca_0701-0800.csv;459
+737;5;ATHLETICO/PR;CORITIBA/PR;;sorteio_sim;critico;Loteca_0701-0800.csv;510
+738;7;PARANA/PR;BAHIA/BA;;sorteio_sim;critico;Loteca_0701-0800.csv;526
+738;10;CAMETA/PA;REMO/PA;;sorteio_sim;critico;Loteca_0701-0800.csv;529
+739;11;CEILANDIA/DF;GAMA/DF;;sorteio_sim;critico;Loteca_0701-0800.csv;544
+748;11;CEARA/CE;FERROVIARIO/CE;;sorteio_sim;critico;Loteca_0701-0800.csv;670
+760;10;PONTE PRETA/SP;FLUMINENSE/RJ;;sorteio_sim;critico;Loteca_0701-0800.csv;837
+777;4;FIGUEIRENSE/SC;PAYSANDU/PA;;sorteio_sim;critico;Loteca_0701-0800.csv;1069
+783;6;OPERARIO/MS;COMERCIAL/MS;;sorteio_sim;critico;Loteca_0701-0800.csv;1155
+789;13;MILAN;INTER DE MILAO;;sorteio_sim;critico;Loteca_0701-0800.csv;1246
+792;8;GLOBO/RN;AMERICA/RN;;sorteio_sim;critico;Loteca_0701-0800.csv;1283
+797;8;AMERICA/MG;VITORIA/BA;;sorteio_sim;critico;Loteca_0701-0800.csv;1353
+808;2;SAMPAIO CORREA/MA;JUVENTUDE/RS;;sorteio_sim;critico;Loteca_0801-0900.csv;101
+828;4;RIVER PLATE;BOCA JUNIORS;;sorteio_sim;critico;Loteca_0801-0900.csv;383
+830;7;TOULOUSE;LYON;;sorteio_sim;critico;Loteca_0801-0900.csv;414
+830;8;SAINT-ETIENNE;MARSEILLE;;sorteio_sim;critico;Loteca_0801-0900.csv;415
+835;8;NIMES;ANGERS;;sorteio_sim;critico;Loteca_0801-0900.csv;485
+845;3;CAMPINENSE/PB;TREZE/PB;;sorteio_sim;critico;Loteca_0801-0900.csv;620
+20;11;PALMEIRAS B/SP;JABOTICABAL/SP;domingo, 23/06/2002;marcador_equipe_B_base_feminino;alto;Loteca_0001-0100.csv;278
+21;7;OESTE/SP;PALMEIRAS-B/SP;domingo, 30/06/2002;marcador_equipe_B_base_feminino;alto;Loteca_0001-0100.csv;288
+24;13;CORINTHIANS B/SP;GUACUANO/SP;domingo, 21/07/2002;marcador_equipe_B_base_feminino;alto;Loteca_0001-0100.csv;336
+25;5;PONTE PRETA B/SP;JOSEENSE/SP;domingo, 28/07/2002;marcador_equipe_B_base_feminino;alto;Loteca_0001-0100.csv;342
+26;11;ELOSPORT/SP;PONTE PRETA B/SP;domingo, 04/08/2002;marcador_equipe_B_base_feminino;alto;Loteca_0001-0100.csv;362
+26;12;CORINTHIANS B/SP;SC PAULISTA/SP;domingo, 04/08/2002;marcador_equipe_B_base_feminino;alto;Loteca_0001-0100.csv;363
+81;13;SAO PAULO B/SP;NACIONAL/SP;domingo, 07/09/2003;marcador_equipe_B_base_feminino;alto;Loteca_0001-0100.csv;1134
+81;14;SANTO ANDRE/SP;SAO CAETANO B/SP;domingo, 07/09/2003;marcador_equipe_B_base_feminino;alto;Loteca_0001-0100.csv;1135
+393;1;FLUMINENSE/RJ/Sub 20;CRUZEIRO/MG - SUB 20;domingo, 13/12/2009;marcador_equipe_B_base_feminino;alto;Loteca_0301-0400.csv;1290
+637;14;CONFIANCA/SE;BOCA JUNIOR/SE;domingo, 25/01/2015;marcador_equipe_B_base_feminino;alto;Loteca_0601-0700.csv;519
+685;11;ITABAIANA/SE;BOCA JUNIOR/SE;domingo, 24/01/2016;marcador_equipe_B_base_feminino;alto;Loteca_0601-0700.csv;1188
+697;6;CONFIANCA/SE;BOCA JUNIOR/SE;domingo, 17/04/2016;marcador_equipe_B_base_feminino;alto;Loteca_0601-0700.csv;1351
+781;7;TUBARÃO/SC SUB 20;FLUMINENSE/RJ/Sub 20;sábado, 06/01/2018;marcador_equipe_B_base_feminino;alto;Loteca_0701-0800.csv;1128
