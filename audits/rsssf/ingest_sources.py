@@ -41,7 +41,7 @@ def parse_page(html_text,year,split,competition,url):
    try:current=date(yr,mo,int(day))
    except ValueError:current=None;warnings.append({"line":no,"reason":"invalid_date"})
    continue
-  m=SCORE.match(line)
+  m=SCORE.match(re.sub(r"\\s+\\[[^\\]]+\\]\\s*$","",line))
   if not m:continue
   if current is None:
    warnings.append({"line":no,"reason":"score_without_date"})
@@ -64,6 +64,7 @@ def extract_league_rounds(html_text,year,competition,url,expected_rounds,per_rou
  first=re.search(r"(?m)^\s*Round 1\s*$",text)
  if not first:return [],"unsupported",[{"reason":"missing_first_round"}],{}
  text=text[first.start():]
+ text=re.sub(r"(?m)^(\\s*Round \\d+)\\s+(\\[[A-Za-z]{3} \\d+\\])\\s*$",r"\\1\n\\2",text)
  blocks=re.split(r"(?m)^\s*Round (\d+)\s*$",text)
  rows=[];warnings=[];counts={};seen=set()
  for i in range(1,len(blocks)-1,2):
@@ -73,7 +74,7 @@ def extract_league_rounds(html_text,year,competition,url,expected_rounds,per_rou
    warnings.append({"reason":"repeated_round","round":n});break
   section=blocks[i+1]
   if n==expected_rounds:
-   section=re.split(r"(?im)^\s*(?:Second Level|Second Division|Segunda|Coppa Italia|Copa del Rey|Cup Competition|Promotion|Relegation Playoff)\b",section)[0]
+   section=re.split(r"(?im)^\s*(?:Final Table:|Second Level|Second Division|Segunda|Coppa Italia|Copa del Rey|Cup Competition|Promotion|Relegation Playoff)\b",section)[0]
   extracted,_,problems=parse_page(section,year,True,competition,url)
   counts[n]=len(extracted)
   warnings.extend({**w,"round":n} for w in problems)
