@@ -56,3 +56,16 @@ print(multiclass_brier(probabilidades, 0))  # resultado 0 = mandante, 1 = empate
 ## Notas
 
 O nome homenageia a abordagem de previsão estatística do FiveThirtyEight; este é um projeto independente e não afiliado à marca.
+
+
+## Importação dos dados históricos
+
+O importador pode buscar diretamente os 13 CSVs públicos de [Loteca/dados](https://github.com/marcosvilhena87/Loteca/tree/main/dados). Nenhum arquivo histórico é copiado para este repositório.
+
+```bash
+python -m loteca_fivethirtyeight.importer
+# ou com os CSVs armazenados localmente:
+python -m loteca_fivethirtyeight.importer --local-dir /caminho/para/dados
+```
+
+Os resultados são salvos em `data/loteca_normalizada.csv` e as estatísticas da importação em `data/relatorio_importacao.json`, ambos ignorados pelo Git. Veja [a documentação de importação](docs/IMPORTACAO.md) para regras de normalização, validação de datas, placares e duplicidades.
