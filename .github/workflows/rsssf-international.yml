@@ -7,6 +7,8 @@ on:
     paths:
       - 'src/loteca_fivethirtyeight/international_rsssf.py'
       - 'tests/test_international_rsssf.py'
+      - 'src/loteca_fivethirtyeight/international_crosscheck.py'
+      - 'auditoria/rsssf/competition_scoped_aliases.csv'
       - 'auditoria/rsssf/international_sources.csv'
       - '.github/workflows/rsssf-international.yml'
 permissions:
@@ -23,6 +25,9 @@ jobs:
       - run: python -m pip install -e . pytest
       - run: pytest tests/test_international_rsssf.py -q
       - run: python -m loteca_fivethirtyeight.international_rsssf auditoria/rsssf/international_sources.csv /tmp/international_rsssf
+      - name: Cross-check both canonical IDs with Caixa contests
+        run: |
+          python -m loteca_fivethirtyeight.international_crosscheck data/caixa_original /tmp/international_rsssf/international_matches.csv auditoria/rsssf/competition_scoped_aliases.csv /tmp/international_rsssf/international_source_audit.csv /tmp/international_rsssf/international_review.csv
       - uses: actions/upload-artifact@v4
         if: always()
         with:
