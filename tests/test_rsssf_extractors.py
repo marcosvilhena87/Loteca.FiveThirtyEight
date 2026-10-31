@@ -61,3 +61,25 @@ def test_rio_semifinals_and_finals_real_format():
         ("2002-04-27","Palmeiras","São Paulo",2,2),
         ("2002-05-05","São Paulo","Corinthians",2,3),
         ("2002-05-12","Corinthians","São Paulo",1,1)]
+
+def test_sul_minas_with_postponed_and_awarded_match():
+    lines=["Liga Sul-Minas 2002","Round 12","[Mar 24]",
+           "Cruzeiro       2-0  Grêmio",
+           "Moved Match","[Apr 3]","Atlético-PR    1-1  Tubarão",
+           "Round 14","[Apr 6]",
+           "Atlético-MG    awd  Pelotas [abandoned at 70' in 2-2, awarded 1-0]",
+           "Semi-Finals","[Apr 20 and 27]",
+           "Grêmio         1-5   1-1  Atlético-PR",
+           "[Apr 21 and 28]",
+           "Atlético-MG    1-1   1-1  Cruzeiro       [pen 2-4]",
+           "Finals","[May 5 and 12]",
+           "Atlético-PR    1-2   0-1  Cruzeiro"]
+    records=parse_lines(lines,"sul_minas_2002")
+    assert len(records)==8
+    assert records[0]["date"]=="2002-03-24"
+    assert records[0]["home"]=="Cruzeiro"
+    assert records[0]["home_goals"]==2
+    assert any(r["round"]=="Adiada" for r in records)
+    assert not any(r["away"]=="Pelotas" for r in records)
+    assert records[-1]["home"]=="Cruzeiro"
+    assert records[-1]["away"]=="Atlético-PR"
