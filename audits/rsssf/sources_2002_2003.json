@@ -23,7 +23,9 @@
     "season_split": true,
     "date_start": "2002-08-01",
     "date_end": "2003-06-30",
-    "expected_matches": 380
+    "expected_matches": 380,
+    "rounds": 38,
+    "matches_per_round": 10
   },
   {
     "id": "it2002_03",
@@ -33,7 +35,9 @@
     "season_split": true,
     "date_start": "2002-08-01",
     "date_end": "2003-06-30",
-    "expected_matches": 306
+    "expected_matches": 306,
+    "rounds": 34,
+    "matches_per_round": 9
   },
   {
     "id": "rj2003",
