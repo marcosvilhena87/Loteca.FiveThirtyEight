@@ -1,0 +1,16 @@
+name: RSSSF ingestion tests
+on:
+  push:
+    branches: [audit/rsssf-concursos-0004-0100]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest
+      - run: python -m pytest -q tests/test_rsssf_ingest_sources.py tests/test_rsssf_extract_rounds.py tests/test_rsssf_reconcile_auto.py
