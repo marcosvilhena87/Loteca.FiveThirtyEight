@@ -13,7 +13,7 @@ jobs:
         with:
           python-version: "3.11"
       - run: python -m pip install pytest
-      - run: python -m pytest -q tests/test_rsssf_ingest_sources.py tests/test_rsssf_extract_rounds.py tests/test_rsssf_reconcile_auto.py tests/test_rsssf_diagnose_missing.py tests/test_rsssf_extract_knockouts.py
+      - run: python -m pytest -q tests/test_rsssf_ingest_sources.py tests/test_rsssf_extract_rounds.py tests/test_rsssf_reconcile_auto.py tests/test_rsssf_diagnose_missing.py tests/test_rsssf_extract_knockouts.py tests/test_rsssf_contextual_clubs.py
   extract:
     needs: tests
     runs-on: ubuntu-latest
