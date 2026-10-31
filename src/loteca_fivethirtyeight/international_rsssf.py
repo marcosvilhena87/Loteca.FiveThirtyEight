@@ -16,7 +16,7 @@ def parse_europe(text,competition,season_end,url):
     # Only first-tier league section. Cups and lower divisions must not leak in.
     first={"La Liga":"Primera Divisi","Premier League":"Premier League","Serie A Italia":"Serie A"}[competition]
     lines=text.splitlines()
-    began=False;day=None;round_seen=False
+    began=False;day=None;round_seen=False;round_no=None;per_round={};seen=set()
     for lineno,raw in enumerate(lines,1):
         line=unescape(raw).strip()
         if not began:
@@ -33,9 +33,13 @@ def parse_europe(text,competition,season_end,url):
             except ValueError:day=None
             continue
         score=EURO_RESULT.match(raw)
-        if not (score and day and round_seen):continue
+        if not (score and day and round_seen and round_no is not None and 1<=round_no<=38):continue
         home,g1,g2,away=score.groups()
         if not re.search(r"[A-Za-z]",home+away):continue
+        if per_round.get(round_no,0)>=10:continue
+        match_key=(round_no,home.strip(),away.strip())
+        if match_key in seen:continue
+        seen.add(match_key);per_round[round_no]=per_round.get(round_no,0)+1
         yield dict(home=home.strip(),away=away.strip(),goals_home=int(g1),goals_away=int(g2),
                    date=day,competition=competition,category="PRINCIPAL",url=url,line=lineno,year=season_end)
 
