@@ -11,3 +11,10 @@ def test_fifa_date():
     text="20- 6-25 Philadelphia    Flamengo          3-1 Chelsea"
     rows=list(parse_fifa(text,2025,"https://rsssf.org/tablesf/fifa-wcc2025.html"))
     assert len(rows)==1 and rows[0]["date"]=="2025-06-20"
+
+def test_single_space_after_long_team_name():
+    text="Premier League\nRound 2\n[Aug 25]\nWolverhampton 2-6 Chelsea"
+    rows=list(parse_europe(text,"Premier League",2025,"https://rsssf.org/tablese/eng2025.html"))
+    assert len(rows)==1
+    assert rows[0]["home"]=="Wolverhampton"
+    assert rows[0]["goals_home"]==2
