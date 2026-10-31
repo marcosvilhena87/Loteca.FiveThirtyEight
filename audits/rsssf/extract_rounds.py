@@ -9,7 +9,7 @@ class Plain(HTMLParser):
   if t in ("br","p","pre","div","tr","h1","h2"):self.a.append("\n")
  def text(self):return html.unescape("".join(self.a))
 months={n:i for i,n in enumerate("Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(),1)}
-dr=re.compile(r"^\s*\\[?(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2})\\]?\s*$",re.I)
+dr=re.compile(r"^\s*\[?(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2})\]?\s*$",re.I)
 mr=re.compile(r"^\s*(.+?)\s{2,}(\d{1,2})\s*[-:]\s*(\d{1,2})\s{2,}(.+?)\s*$")
 def extract(s,base_year,season_split,competition,url):
  current=None;result=[];seen=set()
