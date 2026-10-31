@@ -27,3 +27,12 @@ Concurso 0001: 14 jogos registrados, com 28 decisões por equipe. Primeira triag
 
 ## Próxima revisão
 Completar composição de Americano, Santos, São Caetano, Portuguesa, Corinthians, Cruzeiro, América-MG, Juventude, Atlético-MG, Coritiba, Figueirense, Criciúma, Athletico-PR, Bahia, Santa Cruz, Náutico, Vitória, Bangu, Etti Jundiaí, Ponte Preta e Botafogo; reavaliar equipes com classificação preliminar à luz de listas de titulares usuais.
+
+## Revisão externa adicional — 31/10/2026
+Foram incorporadas fichas técnicas e reportagens de fevereiro de 2002, classificando provisoriamente 25 de 28 lados como P. **Três continuam I**: Americano (jogo 2), Bahia e Santa Cruz (jogo 10). A pesquisa não concluiu confronto individual das 11 escalações com jogos anteriores e posteriores para todos os 28 lados; portanto, o código P não deve ser confundido com confirmação de 11 titulares habituais.
+
+Fontes especialmente úteis: Terra (Portuguesa–Corinthians, Coritiba–Figueirense, Criciúma–Athletico, Náutico–Vitória, Ponte Preta–Botafogo), oGol (Cruzeiro–América), Zerozero (Juventude–Atlético), Gremiopédia (Grêmio–Joinville com relação de partidas próximas), RSSSF Brasil (Fluminense nos dias 16, 20 e 23/02), Diário do Grande ABC (Etti). URLs individuais constam do CSV.
+
+**Alerta de integridade:** uma publicação da Folha de Londrina apresenta Náutico–Vitória como 1–1, enquanto ficha técnica contemporânea da Terra registra 2–1, em concordância com CSV Caixa. Não alterar o resultado do CSV sem confirmação adicional; registrar divergência editorial. A mesma publicação apresenta Figueirense/PR em vez de SC, provável erro de UF.
+
+**Próxima exigência antes de fechar o concurso:** comparação nominal de titulares nos jogos anterior/seguinte, ao menos para casos de confiança média e equipes I; anexar os links e números de interseção. Não afirmar auditoria concluída enquanto isso não tiver sido feito.
