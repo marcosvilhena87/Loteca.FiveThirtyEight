@@ -71,7 +71,8 @@ def run(manifest,out):
             text=unescape(re.sub(r"<[^>]*>","",re.sub(r"(?i)<br\s*/?>","\n",raw.decode("utf-8",errors="replace"))))
             got=parse_page(text,entry)
             row["parsed_games"]=len(got)
-            row["status"]="PARSED_NEEDS_REVIEW" if got else "NO_MATCHES_PARSED"
+            expected=380 if entry["competition"] in ("La Liga","Premier League","Serie A Italia") else None
+            row["status"]=("COUNT_MISMATCH_QUARANTINE" if expected is not None and len(got)!=expected else "PARSED_NEEDS_REVIEW") if got else "NO_MATCHES_PARSED"
             refs+=got
         except Exception as e: row["status"]="FETCH_OR_PARSE_ERROR";row["error"]=str(e)[:150]
         audit.append(row)
