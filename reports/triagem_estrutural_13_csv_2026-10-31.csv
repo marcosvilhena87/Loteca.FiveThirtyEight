@@ -1,0 +1,15 @@
+arquivo;registros;linhas_invalidas;duplicadas;marcador_categoria;marcador_sorteio
+Loteca_0001-0100.csv;1400;0;0;0;11
+Loteca_0101-0200.csv;1400;0;0;0;3
+Loteca_0201-0300.csv;1400;0;0;0;13
+Loteca_0301-0400.csv;1400;0;0;1;5
+Loteca_0401-0500.csv;1400;0;0;0;5
+Loteca_0501-0600.csv;1400;0;0;0;10
+Loteca_0601-0700.csv;1400;0;0;0;16
+Loteca_0701-0800.csv;1400;0;0;1;23
+Loteca_0801-0900.csv;1400;0;0;0;6
+Loteca_0901-1000.csv;1400;0;0;0;0
+Loteca_1001-1100.csv;1400;0;0;0;0
+Loteca_1101-1200.csv;1400;0;0;0;0
+Loteca_1201-1300.csv;1036;0;0;0;0
+TOTAL;17836;0;0;2;92
