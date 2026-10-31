@@ -89,6 +89,13 @@ def match_all(loteca, rsssf):
         by_fixture[(h,a)].append(record)
         by_date_fixture[(d,h,a)].append(record)
         by_fixture_score[(h,a,hg,ag)].append(record)
+    # Datas observadas, por competição, delimitam o escopo documental.
+    # Não inferir erros de data quando a partida ocorreu fora desse intervalo.
+    competition_dates=defaultdict(list)
+    for group in by_fixture.values():
+        for record in group:
+            competition_dates[record[5]].append(record[0])
+    windows={name:(min(dates),max(dates)) for name,dates in competition_dates.items()}
     seen=Counter((r["concurso"].strip(),r["jogo"].strip()) for r in loteca)
     output=[]
     for r in loteca:
@@ -132,6 +139,11 @@ def match_all(loteca, rsssf):
                         result.update(estado="confirmado",motivo="correspondencia estrita por data mando identidade placar e competicao",
                                       competicao=next(iter(comps)),fonte_url=sorted(x[6] for x in matches)[0])
                     else:
+                        in_scope=any(start<=d<=end for start,end in windows.values())
+                        if not in_scope:
+                            fail("fora_escopo","data fora do intervalo das competicoes RSSSF carregadas")
+                            output.append(result)
+                            continue
                         same_day=by_date_fixture.get((d,h,a),[])
                         same_score=[x for x in by_fixture_score.get((h,a,hg,ag),[]) if x[0][:4]==d[:4]]
                         known=[x for x in by_fixture.get((h,a),[]) if x[0][:4]==d[:4]]
