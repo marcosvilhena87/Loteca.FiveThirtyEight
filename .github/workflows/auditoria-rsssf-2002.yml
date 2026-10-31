@@ -15,7 +15,7 @@ jobs:
       - name: Instalar projeto
         run: python -m pip install -e . pytest
       - name: Testes de regressao
-        run: python -m pytest -q tests/test_rsssf_extractors.py tests/test_rsssf_match.py
+        run: python -m pytest -q tests/test_rsssf_extractors.py tests/test_rsssf_match.py tests/test_exception_report.py
       - name: Baixar Loteca e extrair RSSSF
         run: |
           mkdir -p reports data/cache_loteca
@@ -32,7 +32,7 @@ jobs:
           print('Contagens validadas:', dict(counts))
           PY
           python -m loteca_fivethirtyeight.rsssf_match --loteca data/fixtures/Loteca_0001-0100.csv --rsssf reports/rsssf_extraido.csv --output reports/cruzamento_0001_0100.csv
-      - name: Consolidar resultados e excecoes
+      - name: Diagnosticar aliases e escopo\n        run: |\n          python -m loteca_fivethirtyeight.exception_report --matches reports/cruzamento_0001_0100.csv --rsssf reports/rsssf_extraido.csv --out reports/excecoes_anotadas.csv --summary reports/aliases_prioritarios.json\n      - name: Consolidar resultados e excecoes
         if: success()
         run: |
           python - <<'PY'
