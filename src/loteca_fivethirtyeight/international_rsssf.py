@@ -37,6 +37,9 @@ def parse_europe(text,competition,season_end,url):
         score=EURO_RESULT.match(raw)
         if not (score and round_seen and round_no is not None and 1<=round_no<=38):continue
         home,g1,g2,away=score.groups()
+        # RSSSF pode registrar jogos abandonados e comentários com placares internos.
+        if "[" in home or "]" in home or re.search(r"\\babd\\b",home,re.I):continue
+        away=re.split(r"\\s{2,}|\\s+\\[",away,maxsplit=1)[0].strip()
         if not re.search(r"[A-Za-z]",home+away):continue
         if per_round.get(round_no,0)>=10:continue
         match_key=(round_no,home.strip(),away.strip())
