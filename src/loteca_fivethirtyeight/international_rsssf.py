@@ -9,7 +9,7 @@ from pathlib import Path
 MONTHS={m:i for i,m in enumerate(("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"),1)}
 MONTHS.update({"June":6,"July":7})
 EURO_DATE=re.compile(r"\[\s*([A-Za-z]{3})\s+(\d{1,2})\s*\]")
-EURO_RESULT=re.compile(r"^\s*(.{2,}?)\s{2,}(\d{1,2})\s*[-–]\s*(\d{1,2})\s+(.+?)\s*$")
+EURO_RESULT=re.compile(r"^\s*(.{2,}?)\s+(\d{1,2})\s*[-–]\s*(\d{1,2})\s+(.+?)\s*$")
 FIFA_RESULT=re.compile(r"^\s*(\d{1,2})-\s*(\d{1,2})-(\d{2})\s+(.+?)\s{2,}(.+?)\s{2,}(\d{1,2})-(\d{1,2})\s+(.+?)\s*$")
 
 def parse_europe(text,competition,season_end,url):
@@ -74,7 +74,10 @@ def run(manifest,out):
             req=urllib.request.Request(entry["url"],headers={"User-Agent":"LotecaAuditResearch/1.0"})
             with urllib.request.urlopen(req,timeout=20) as response:
                 raw=response.read()
-            text=unescape(re.sub(r"<[^>]*>","",re.sub(r"(?i)<br\s*/?>","\n",raw.decode("utf-8",errors="replace"))))
+            charset=response.headers.get_content_charset() or "utf-8"
+            try: decoded=raw.decode(charset)
+            except (UnicodeDecodeError,LookupError): decoded=raw.decode("latin-1")
+            text=unescape(re.sub(r"<[^>]*>","",re.sub(r"(?i)<br\s*/?>","\n",decoded)))
             got=parse_page(text,entry)
             row["parsed_games"]=len(got)
             row["missing_dates"]=sum(not r["date"] for r in got)
