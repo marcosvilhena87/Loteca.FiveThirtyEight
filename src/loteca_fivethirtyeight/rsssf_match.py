@@ -133,8 +133,8 @@ def match_all(loteca, rsssf):
                                       competicao=next(iter(comps)),fonte_url=sorted(x[6] for x in matches)[0])
                     else:
                         same_day=by_date_fixture.get((d,h,a),[])
-                        same_score=by_fixture_score.get((h,a,hg,ag),[])
-                        known=by_fixture.get((h,a),[])
+                        same_score=[x for x in by_fixture_score.get((h,a,hg,ag),[]) if x[0][:4]==d[:4]]
+                        known=[x for x in by_fixture.get((h,a),[]) if x[0][:4]==d[:4]]
                         if same_day and len({x[5] for x in same_day})>1:
                             fail("conflito_fontes","fontes divergem sobre competicao do mesmo confronto e data")
                         elif same_day:
