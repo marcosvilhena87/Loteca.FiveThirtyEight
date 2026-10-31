@@ -79,11 +79,11 @@ def run(manifest,out):
             row["parsed_games"]=len(got)
             row["missing_dates"]=sum(not r["date"] for r in got)
             row["unique_fixtures"]=len({(r["home"],r["away"]) for r in got})
+            expected=380 if entry["competition"] in ("La Liga","Premier League","Serie A Italia") else None
             if expected:
                 from collections import Counter
                 n=Counter(int(r["round"]) for r in got if r.get("round"))
                 row["underfull_rounds"]=",".join(f"{i}:{n[i]}" for i in range(1,39) if n[i]!=10)
-            expected=380 if entry["competition"] in ("La Liga","Premier League","Serie A Italia") else None
             row["status"]=("COUNT_MISMATCH_QUARANTINE" if expected is not None and (len(got)!=expected or row["missing_dates"] or row["unique_fixtures"]!=expected) else "PARSED_NEEDS_REVIEW") if got else "NO_MATCHES_PARSED"
             refs+=got
         except Exception as e: row["status"]="FETCH_OR_PARSE_ERROR";row["error"]=str(e)[:150]
