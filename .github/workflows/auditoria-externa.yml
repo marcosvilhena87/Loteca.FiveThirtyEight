@@ -10,6 +10,8 @@ on:
       - 'src/loteca_fivethirtyeight/identity.py'
       - 'src/loteca_fivethirtyeight/official_fixtures.py'
       - 'tests/test_official_fixtures.py'
+      - 'src/loteca_fivethirtyeight/official_collectors.py'
+      - 'tests/test_official_collectors.py'
       - '.github/workflows/auditoria-externa.yml'
 jobs:
   audit:
@@ -24,7 +26,7 @@ jobs:
       - name: Instalar e testar
         run: |
           python -m pip install -e . pytest
-          pytest -q tests/test_external_audit.py tests/test_identity.py tests/test_official_fixtures.py
+          pytest -q tests/test_external_audit.py tests/test_identity.py tests/test_official_fixtures.py tests/test_official_collectors.py
       - name: Gerar relatorio
         env:
           SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
