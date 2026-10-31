@@ -42,3 +42,13 @@ def test_historical_distinctions():
     assert resolve("NOVORIZONTINO/SP",2025,rows)=="BRA-SP-NOVORIZONTINO-2010"
     assert resolve("GREMIO ESPORTIVO NOVORIZONTINO/SP",2025,rows) is None
     assert resolve("ATHLETICO/PR",2025,rows)=="BRA-PR-ATHLETICO"
+
+def test_international_and_ambiguous_identifiers():
+    from pathlib import Path
+    from loteca_fivethirtyeight.club_identity import read_registry
+    rows=read_registry(Path("auditoria/rsssf/club_registry.csv"))
+    assert resolve("REAL MADRID",2025,rows)=="ESP-MAD-REAL-MADRID"
+    assert resolve("MANCHESTER UNITED",2025,rows)=="ENG-MAN-MANCHESTER-UNITED"
+    assert resolve("BARCELONA",2025,rows) is None
+    assert resolve("BRASIL/RS",2025,rows)=="BRA-RS-BRASIL-PELOTAS"
+    assert resolve("RIVER/PI",2025,rows)=="BRA-PI-RIVER"
