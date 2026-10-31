@@ -49,3 +49,10 @@ def test_sem_inventar_divergencia_por_encontros_distintos():
 def test_outra_temporada_nao_e_divergencia_data():
     rec=match_all([game(data_jogo="domingo, 17/02/2003")],[source()])[0]
     assert rec["categoria_excecao"]=="fora_escopo"
+
+def test_outside_tournament_window_not_false_date_discrepancy():
+    record=game(data_jogo="domingo, 25/08/2002",
+                equipe_1="FLUMINENSE/RJ",equipe_2="SANTOS/SP",gols_1="1",gols_2="1")
+    historical=source(date="2002-03-16",home="Fluminense",away="Santos",home_goals="1",away_goals="1")
+    result=match_all([record],[historical])[0]
+    assert result["categoria_excecao"]=="fora_escopo"
