@@ -8,6 +8,7 @@ import datetime as dt
 import json
 import urllib.error
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from collections import Counter
 from pathlib import Path
 from loteca_fivethirtyeight.rsssf_match import load_loteca, parse_date
@@ -48,11 +49,17 @@ def main():
     p.add_argument("--source",type=Path,required=True)
     p.add_argument("--output",type=Path,required=True)
     p.add_argument("--verify",action="store_true")
+    p.add_argument("--limit",type=int,default=200)
+    p.add_argument("--workers",type=int,default=6)
     args=p.parse_args()
     rows=list(proposals(args.source))
     if args.verify:
-        for row in rows:
-            row["status"]="URL_REACHABLE_UNREVIEWED" if verify_url(row["url"]) else "URL_UNAVAILABLE"
+        # O limite permite rodadas curtas e auditáveis sem presumir que a URL prova o torneio.
+        targets=rows[:args.limit]
+        with ThreadPoolExecutor(max_workers=min(8,max(1,args.workers))) as pool:
+            results=list(pool.map(verify_url,(r["url"] for r in targets)))
+        for row,ok in zip(targets,results):
+            row["status"]="URL_REACHABLE_UNREVIEWED" if ok else "URL_UNAVAILABLE_OR_ERROR"
     args.output.parent.mkdir(parents=True,exist_ok=True)
     with args.output.open("w",encoding="utf-8",newline="") as f:
         w=csv.DictWriter(f,fieldnames=list(rows[0]),delimiter=";");w.writeheader();w.writerows(rows)
