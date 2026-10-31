@@ -1,4 +1,4 @@
-name: RSSSF ingestion tests
+name: RSSSF ingestion and tests
 on:
   push:
     branches: [audit/rsssf-concursos-0004-0100]
@@ -14,3 +14,29 @@ jobs:
           python-version: "3.11"
       - run: python -m pip install pytest
       - run: python -m pytest -q tests/test_rsssf_ingest_sources.py tests/test_rsssf_extract_rounds.py tests/test_rsssf_reconcile_auto.py
+  extract:
+    needs: tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Download RSSSF sources and validate integrity
+        run: python -m audits.rsssf.ingest_sources --manifest audits/rsssf/sources_2002_2003.json --archive data/rsssf_archive
+      - name: Publish per-season integrity summary
+        if: always()
+        run: |
+          if test -f data/rsssf_archive/integrity_report.json; then
+            python -m json.tool data/rsssf_archive/integrity_report.json
+          fi
+      - name: Archive snapshots and reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rsssf-ingestion-2002-2003
+          path: data/rsssf_archive/
+          retention-days: 30
+          if-no-files-found: warn
