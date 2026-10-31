@@ -391,7 +391,7 @@
 31;12;domingo, 08/09/2002;VITORIA/BA;INTERNACIONAL/RS;0-0;Não Demonstrado;2002;Campeonato Brasileiro Série A 2002;principal;principal;08/09/2002;0-0;https://rsssfbrasil.com/tablesae/br2002.htm;confirmado_rsssf_data_placar;nenhuma;sim;Verificado na rodada de 7-8 setembro de 2002 da RSSSF
 31;13;domingo, 08/09/2002;GUARANI/SP;PAYSANDU/PA;2-0;Não;2002;Campeonato Brasileiro Série A 2002;principal;principal;08/09/2002;2-0;https://rsssfbrasil.com/tablesae/br2002.htm;confirmado_rsssf_data_placar;nenhuma;sim;Verificado na rodada de 7-8 setembro de 2002 da RSSSF
 31;14;sábado, 07/09/2002;SAO CAETANO/SP;SAO PAULO/SP;3-0;Não;2002;Campeonato Brasileiro Série A 2002;principal;principal;07/09/2002;3-0;https://rsssfbrasil.com/tablesae/br2002.htm;confirmado_rsssf_data_placar;nenhuma;sim;Verificado na rodada de 7-8 setembro de 2002 da RSSSF
-32;1;domingo, 15/09/2002;SAO PAULO/SP;FLUMINENSE/RJ;6-0;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
+32;1;domingo, 15/09/2002;SAO PAULO/SP;FLUMINENSE/RJ;6-0;Não;2002;Campeonato Brasileiro Série A 2002;principal;principal;15/09/2002;6-0;https://www.rsssfbrasil.com/tablesae/br2002.htm;confirmado_rsssf_data_placar;nenhuma;sim;Fonte RSSSF consultada diretamente: confronto, placar e data
 32;2;domingo, 15/09/2002;BOTAFOGO/RJ;VASCO DA GAMA/RJ;1-1;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 32;3;sábado, 14/09/2002;PARANA/PR;ATHLETICO/PR;2-2;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 32;4;sábado, 14/09/2002;SANTOS/SP;GREMIO/RS;2-0;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
@@ -433,12 +433,12 @@
 34;12;domingo, 29/09/2002;GOIAS/GO;GREMIO/RS;4-1;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 34;13;sábado, 28/09/2002;FLUMINENSE/RJ;GUARANI/SP;2-1;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 34;14;domingo, 29/09/2002;SANTOS/SP;PALMEIRAS/SP;1-1;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
-35;1;sábado, 05/10/2002;FLAMENGO/RJ;SAO PAULO/SP;2-3;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
+35;1;sábado, 05/10/2002;FLAMENGO/RJ;SAO PAULO/SP;2-3;Não;2002;Campeonato Brasileiro Série A 2002;principal;principal;05/10/2002;2-3;https://www.rsssfbrasil.com/tablesae/br2002.htm;confirmado_rsssf_data_placar;nenhuma;sim;Fonte RSSSF consultada diretamente: confronto, placar e data
 35;2;sábado, 05/10/2002;BOTAFOGO/RJ;SAO CAETANO/SP;1-1;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 35;3;sábado, 05/10/2002;PALMEIRAS/SP;P. DESPORTOS/SP;2-1;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 35;4;sábado, 05/10/2002;GOIAS/GO;ATHLETICO/PR;0-0;Não Demonstrado;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 35;5;sábado, 05/10/2002;GAMA/DF;PAYSANDU/PA;2-0;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
-35;6;sábado, 05/10/2002;SPORT RECIFE/PE;CRB/AL;3-0;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
+35;6;sábado, 05/10/2002;SPORT RECIFE/PE;CRB/AL;3-0;Não;2002;Campeonato Brasileiro Série B 2002;principal;principal;05/10/2002;3-0;https://www.rsssfbrasil.com/tablesae/br2002l2.htm;confirmado_rsssf_data_placar;nenhuma;sim;Fonte RSSSF consultada diretamente: confronto, placar e data
 35;7;sábado, 05/10/2002;ETTI  JUNDIAI/SP;GUARANY/CE;2-1;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 35;8;sábado, 05/10/2002;MOGI MIRIM/SP;ANAPOLINA/GO;3-1;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 35;9;sábado, 05/10/2002;UNIAO SAO JOAO/SP;AMERICA/RN;2-3;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
@@ -467,7 +467,7 @@
 37;4;domingo, 20/10/2002;GUARANI/SP;SAO PAULO/SP;1-2;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 37;5;domingo, 20/10/2002;VITORIA/BA;FLAMENGO/RJ;1-2;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 37;6;sábado, 19/10/2002;GREMIO/RS;GAMA/DF;3-1;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
-37;7;sábado, 19/10/2002;SANTA CRUZ/PE;CAXIAS/RS;3-0;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
+37;7;sábado, 19/10/2002;SANTA CRUZ/PE;CAXIAS/RS;3-0;Não;2002;Campeonato Brasileiro Série B 2002;principal;principal;19/10/2002;3-0;https://www.rsssfbrasil.com/tablesae/br2002l2.htm;confirmado_rsssf_data_placar;nenhuma;sim;Fonte RSSSF consultada diretamente: confronto, placar e data
 37;8;sábado, 19/10/2002;CEARA/CE;FORTALEZA/CE;1-0;Não Demonstrado;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 37;9;domingo, 20/10/2002;FLUMINENSE/RJ;BAHIA/BA;1-0;Não Demonstrado;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 37;10;domingo, 20/10/2002;JUVENTUDE/RS;CORITIBA/PR;5-3;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
@@ -503,13 +503,13 @@
 39;12;domingo, 03/11/2002;SAO CAETANO/SP;JUVENTUDE/RS;2-1;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 39;13;domingo, 03/11/2002;ATHLETICO/PR;ATLETICO/MG;2-2;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 39;14;domingo, 03/11/2002;CORINTHIANS/SP;FLUMINENSE/RJ;0-2;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
-40;1;domingo, 10/11/2002;BOTAFOGO/RJ;CORINTHIANS/SP;2-1;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
+40;1;domingo, 10/11/2002;BOTAFOGO/RJ;CORINTHIANS/SP;2-1;Não;2002;Campeonato Brasileiro Série A 2002;principal;principal;10/11/2002;2-1;https://www.rsssfbrasil.com/tablesae/br2002.htm;confirmado_rsssf_data_placar;nenhuma;sim;Fonte RSSSF consultada diretamente: confronto, placar e data
 40;2;sábado, 09/11/2002;CRUZEIRO/MG;ATHLETICO/PR;4-1;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 40;3;domingo, 10/11/2002;P. DESPORTOS/SP;FLAMENGO/RJ;1-2;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 40;4;sábado, 09/11/2002;GREMIO/RS;SAO CAETANO/SP;2-2;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 40;5;sábado, 09/11/2002;VASCO DA GAMA/RJ;VITORIA/BA;4-1;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 40;6;sábado, 09/11/2002;PAYSANDU/PA;FLUMINENSE/RJ;3-2;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
-40;7;sábado, 09/11/2002;AVAI/SC;CAXIAS/RS;0-0;Não Demonstrado;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
+40;7;sábado, 09/11/2002;AVAI/SC;CAXIAS/RS;0-0;Não Demonstrado;2002;Campeonato Brasileiro Série B 2002;principal;principal;09/11/2002;0-0;https://www.rsssfbrasil.com/tablesae/br2002l2.htm;confirmado_rsssf_data_placar;nenhuma;sim;Fonte RSSSF consultada diretamente: confronto, placar e data
 40;8;sábado, 09/11/2002;SPORT RECIFE/PE;FORTALEZA/CE;2-0;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 40;9;sábado, 09/11/2002;CRICIUMA/SC;ANAPOLINA/GO;1-1;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 40;10;domingo, 10/11/2002;CORITIBA/PR;PARANA/PR;2-0;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
@@ -531,7 +531,7 @@
 41;12;domingo, 17/11/2002;NACIONAL/AM;BRASILIENSE/DF;0-1;Não Demonstrado;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 41;13;domingo, 17/11/2002;VITORIA/BA;PALMEIRAS/SP;4-3;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 41;14;domingo, 17/11/2002;PONTE PRETA/SP;FLUMINENSE/RJ;2-3;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
-42;1;domingo, 24/11/2002;SANTOS/SP;SAO PAULO/SP;3-1;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
+42;1;domingo, 24/11/2002;SANTOS/SP;SAO PAULO/SP;3-1;Não;2002;Campeonato Brasileiro Série A 2002;principal;principal;24/11/2002;3-1;https://www.rsssfbrasil.com/tablesae/br2002.htm;confirmado_rsssf_data_placar;nenhuma;sim;Fonte RSSSF consultada diretamente: confronto, placar e data
 42;2;domingo, 24/11/2002;ATLETICO/MG;CORINTHIANS/SP;2-6;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 42;3;domingo, 24/11/2002;GREMIO/RS;JUVENTUDE/RS;0-0;Não Demonstrado;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
 42;4;domingo, 24/11/2002;FLUMINENSE/RJ;SAO CAETANO/SP;3-0;Não;2002;;nao_verificada;nao_verificada;;;;pendente_fonte_rsssf;;pendente;Confronto ainda sem correspondência RSSSF documentada
