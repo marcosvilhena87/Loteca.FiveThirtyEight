@@ -44,3 +44,20 @@ def test_html_text_lines():
 
 def test_notes_not_part_of_visitor():
     assert _match_line("Cruzeiro    3-4 Paysandu       (Paysandu won 3-0 on penalties)") == ("Cruzeiro","Paysandu",3,4)
+
+def test_rio_semifinals_and_finals_real_format():
+    lines = ["Round 15", "[Apr 14]", "Flamengo 2-1 Jundiaí",
+        "Semi-Finals", "[Apr 20 and 28]",
+        "São Caetano    1-1   1-3  Corinthians",
+        "[Apr 21 and 27]", "São Paulo      1-1   2-2  Palmeiras",
+        "Finals", "[May 5 and 12]",
+        "São Paulo      2-3   1-1  Corinthians"]
+    games = parse_lines(lines, "rio_sp_2002")
+    assert len(games) == 7
+    assert [(g["date"],g["home"],g["away"],g["home_goals"],g["away_goals"]) for g in games[-6:]] == [
+        ("2002-04-20","São Caetano","Corinthians",1,1),
+        ("2002-04-28","Corinthians","São Caetano",3,1),
+        ("2002-04-21","São Paulo","Palmeiras",1,1),
+        ("2002-04-27","Palmeiras","São Paulo",2,2),
+        ("2002-05-05","São Paulo","Corinthians",2,3),
+        ("2002-05-12","Corinthians","São Paulo",1,1)]
