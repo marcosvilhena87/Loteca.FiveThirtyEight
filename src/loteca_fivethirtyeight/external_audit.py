@@ -19,6 +19,7 @@ from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlencode
 from urllib.request import Request, urlopen
+from .identity import resolve, resolve_rows, write_alias_report
 
 SOURCE = "https://raw.githubusercontent.com/marcosvilhena87/Loteca/main/dados/"
 HEADERS = {"User-Agent": "Loteca538-auditoria/1.0 (research; respect rate limits)"}
@@ -144,6 +145,10 @@ def classify(row: dict, results: list[dict] | None = None) -> dict:
         "evidencia_titulo": "", "motivo": "sem evidência externa suficiente",
         "risco": "alto", "consulta_url": query_url, "fonte_csv": row["_file"]
     }
+    a, b = resolve(row["equipe_1"]), resolve(row["equipe_2"])
+    if a.squad != "principal" or b.squad != "principal":
+        base.update(classificacao="categoria_nao_principal", equipe_principal="nao", risco="critico", motivo="marcador explícito de equipe B ou categoria de base; validar em fonte oficial")
+        return base
     if fold(row.get("sorteio", "")) in ("SIM", "S", "YES") or "SORTEIO" in fold(row.get("resultado_placar", "")):
         base.update(classificacao="sorteio", motivo="resultado lotérico por sorteio; requer verificação da realização esportiva", risco="critico")
         return base
@@ -270,6 +275,7 @@ def main() -> None:
     rows = read_records(fetch_csvs(args.cache, remote=not args.offline))
     reports = audit(rows, os.getenv("SERPER_API_KEY", ""), args.pause, args.max_searches)
     write_reports(reports, args.output)
+    write_alias_report(resolve_rows(rows), args.output / "aliases_por_partida.csv")
     print(json.dumps({"registros": len(reports), "saida": str(args.output),
                       "status": dict(Counter(r["classificacao"] for r in reports))},
                      ensure_ascii=False, indent=2))
