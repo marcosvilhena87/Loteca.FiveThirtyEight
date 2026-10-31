@@ -76,7 +76,7 @@ def extract_league_rounds(html_text,year,competition,url,expected_rounds,per_rou
   if n==expected_rounds:
    section=re.split(r"(?im)^\s*(?:Final Table:|Second Level|Second Division|Segunda|Coppa Italia|Copa del Rey|Cup Competition|Promotion|Relegation Playoff)\b",section)[0]
   extracted,_,problems=parse_page(section,year,True,competition,url)
-  if expected_rounds==34 and n==12 and re.search(r"(?im)^\\s*Como\\s+awd\\s+Udinese\\b",section):
+  if expected_rounds==34 and n==12 and re.search(r"(?im)^\s*Como\s+awd\s+Udinese\b",section):
    extracted.append({"date":"2002-12-18","home":"Como","away":"Udinese","home_goals":"0","away_goals":"2","competition":competition,"source_url":url,"source_line":0,"result_type":"administrative_award"})
   counts[n]=len(extracted)
   warnings.extend({**w,"round":n} for w in problems)
