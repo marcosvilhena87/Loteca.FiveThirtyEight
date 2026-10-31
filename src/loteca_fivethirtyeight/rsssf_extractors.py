@@ -104,7 +104,7 @@ def parse_lines(lines, competition_key):
                         date(2002, month, int(mdates["second"])).isoformat()
                     )
                     continue
-                legs = TWO_LEGS.fullmatch(line)
+                legs = TWO_LEGS.fullmatch(re.sub(r"\\s*\\[pen\\s+\\d+-\\d+\\]\\s*$", "", line, flags=re.I))
                 if legs and two_dates:
                     home, away = legs["home"].strip(), legs["away"].strip()
                     scores = (
