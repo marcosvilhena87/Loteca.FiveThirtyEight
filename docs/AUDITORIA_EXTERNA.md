@@ -6,12 +6,12 @@ Objetivo: identificar competição e categoria das partidas nos 13 CSVs de Lotec
 
 Instale o projeto em modo editável (pip install -e .) e execute:
 
-    python -m loteca538.external_audit --output reports/auditoria_externa
+    python -m loteca_fivethirtyeight.external_audit --output reports/auditoria_externa
     pytest -q tests/test_external_audit.py
 
 Sem SERPER_API_KEY, a rotina baixa os CSVs e gera exceções e links de pesquisa, mas **não faz pesquisa externa**. Para pesquisar de fato, configure a variável de ambiente SERPER_API_KEY, obtida em https://serper.dev (serviço sujeito a cotas e preços):
 
-    python -m loteca538.external_audit --max-searches 100 --pause 1.5
+    python -m loteca_fivethirtyeight.external_audit --max-searches 100 --pause 1.5
 
 Arquivos de saída: auditoria_completa.csv, excecoes.csv, resumo.json e RELATORIO.md.
 
