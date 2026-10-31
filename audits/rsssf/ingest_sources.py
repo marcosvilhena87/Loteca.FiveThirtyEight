@@ -41,7 +41,7 @@ def parse_page(html_text,year,split,competition,url):
    try:current=date(yr,mo,int(day))
    except ValueError:current=None;warnings.append({"line":no,"reason":"invalid_date"})
    continue
-  m=SCORE.match(re.sub(r"\s+\[[^\]]+\]\s*$","",line))
+  m=SCORE.match(re.sub(r"\s+Att:\s*[\d.,]+.*$","",re.sub(r"\s+\[[^\]]+\]\s*$","",line),flags=re.I))
   if not m:continue
   if current is None:
    warnings.append({"line":no,"reason":"score_without_date"})
