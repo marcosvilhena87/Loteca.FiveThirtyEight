@@ -28,6 +28,8 @@ SCORE = re.compile(r"^\s*(?P<home>[\wÀ-ÿ][\wÀ-ÿ ./'-]*?)\s+"
 DATES = re.compile(r"^\s*\[(?P<mon>Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+"
                    r"(?P<day>\d{1,2})\]\s*$", re.I)
 ROUND = re.compile(r"^\s*Round\s+(\d+)\s*$", re.I)
+TWO_LEGS = re.compile(r"^\s*(?P<home>[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ .'-]+?)\s+(?P<h1>\d+)-(?P<a1>\d+)\s+(?P<h2>\d+)-(?P<a2>\d+)\s+(?P<away>[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ .'-]+?)\s*$")
+TWO_DATES = re.compile(r"^\[(?P<month>Apr|May)\s+(?P<first>\d{1,2})\s+and\s+(?P<second>\d{1,2})\]$", re.I)
 PHASES = {"FIRST PHASE", "QUARTERFINALS", "SEMIFINALS", "FINAL"}
 class TextExtractor(HTMLParser):
     def __init__(self):
@@ -67,6 +69,7 @@ def parse_lines(lines, competition_key):
     current_date = None
     output = []
     started = False
+    two_dates = None
     for raw in lines:
         line = raw.strip()
         upper = line.upper()
@@ -80,10 +83,35 @@ def parse_lines(lines, competition_key):
                 continue
             if not started:
                 continue
-            if "SEMIFINAL" in upper or upper == "FINAL":
-                phase = "Semifinais" if "SEMIFINAL" in upper else "Final"
+            if upper in ("SEMI-FINALS", "SEMIFINALS", "FINALS", "FINAL"):
+                phase = "Semifinais" if "SEMI" in upper else "Final"
                 round_number = ""
                 current_date = None
+                two_dates = None
+                continue
+            if phase in ("Semifinais", "Final"):
+                mdates = TWO_DATES.fullmatch(line)
+                if mdates:
+                    month = MONTHS[mdates["month"].title()]
+                    two_dates = (
+                        date(2002, month, int(mdates["first"])).isoformat(),
+                        date(2002, month, int(mdates["second"])).isoformat()
+                    )
+                    continue
+                legs = TWO_LEGS.fullmatch(line)
+                if legs and two_dates:
+                    home, away = legs["home"].strip(), legs["away"].strip()
+                    scores = (
+                        (two_dates[0], home, away, int(legs["h1"]), int(legs["a1"])),
+                        (two_dates[1], away, home, int(legs["a2"]), int(legs["h2"]))
+                    )
+                    for d, h, a, hg, ag in scores:
+                        output.append(dict(date=d, home=h, away=a,
+                            home_goals=hg, away_goals=ag, competition=comp,
+                            source_url=url, phase=phase, round=round_number,
+                            evidence_level="B"))
+                    two_dates = None
+                    continue
         else:
             if upper in PHASES:
                 phase = upper.title()
