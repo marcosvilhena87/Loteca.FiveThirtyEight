@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - feature/extratores-rsssf-2002
+      - feature/diagnostico-escopo-aliases-sulminas
   workflow_dispatch:
 jobs:
   extract-and-cross:
