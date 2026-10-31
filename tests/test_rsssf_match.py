@@ -33,3 +33,26 @@ def test_conflict_and_duplicate():
 
 def test_no_swap_of_home_away():
     assert match_all([game()],[source(home="São Caetano",away="Santos")])[0]["estado"]=="pendente"
+
+def test_categorias_excecao():
+    assert match_all([game(equipe_1="CLUBE NAO MAPEADO")],[source()])[0]["categoria_excecao"] == "alias_ausente"
+    assert match_all([game()],[source(home="Palmeiras")])[0]["categoria_excecao"] == "fora_escopo"
+    assert match_all([game()],[source(home_goals="3")])[0]["categoria_excecao"] == "divergencia_placar"
+    assert match_all([game()],[source(date="2002-02-18"),source(date="2002-02-16",home="Palmeiras",away="Flamengo")])[0]["categoria_excecao"] == "divergencia_data"
+    assert match_all([game()],[source(),source(competition="Outro torneio")])[0]["categoria_excecao"] == "conflito_fontes"
+    assert match_all([game()],[source(),source(source_url="https://rsssf.org/alternativa")])[0]["estado"] == "confirmado"
+
+def test_sem_inventar_divergencia_por_encontros_distintos():
+    rec = match_all([game()],[source(date="2002-02-19",home_goals="9"),source(date="2002-02-16",home="Palmeiras",away="Flamengo")])[0]
+    assert rec["categoria_excecao"] == "revisao_humana"
+
+def test_outra_temporada_nao_e_divergencia_data():
+    rec=match_all([game(data_jogo="domingo, 17/02/2003")],[source()])[0]
+    assert rec["categoria_excecao"]=="fora_escopo"
+
+def test_outside_tournament_window_not_false_date_discrepancy():
+    record=game(data_jogo="domingo, 25/08/2002",
+                equipe_1="FLUMINENSE/RJ",equipe_2="SANTOS/SP",gols_1="1",gols_2="1")
+    historical=source(date="2002-03-16",home="Fluminense",away="Santos",home_goals="1",away_goals="1")
+    result=match_all([record],[historical])[0]
+    assert result["categoria_excecao"]=="fora_escopo"

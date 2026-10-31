@@ -1,0 +1,63 @@
+name: Auditoria RSSSF 2002 completa
+on:
+  push:
+    branches:
+      - feature/extratores-rsssf-2002
+  workflow_dispatch:
+jobs:
+  extract-and-cross:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Instalar projeto
+        run: python -m pip install -e . pytest
+      - name: Testes de regressao
+        run: python -m pytest -q tests/test_rsssf_extractors.py tests/test_rsssf_match.py
+      - name: Baixar Loteca e extrair RSSSF
+        run: |
+          mkdir -p reports data/cache_loteca
+          python -m loteca_fivethirtyeight.rsssf_extractors --competition all --output reports/rsssf_extraido.csv
+          python - <<'PY'
+          import csv
+          from collections import Counter
+          with open('reports/rsssf_extraido.csv', encoding='utf-8') as fh:
+              rows=list(csv.DictReader(fh,delimiter=';'))
+          counts=Counter(x['competition'] for x in rows)
+          assert len(rows)==158, f'Total extraido inesperado: {len(rows)}'
+          assert counts['Torneio Rio-São Paulo 2002']==126, counts
+          assert counts['Copa dos Campeões 2002']==32, counts
+          print('Contagens validadas:', dict(counts))
+          PY
+          python -m loteca_fivethirtyeight.rsssf_match --loteca data/fixtures/Loteca_0001-0100.csv --rsssf reports/rsssf_extraido.csv --output reports/cruzamento_0001_0100.csv
+      - name: Consolidar resultados e excecoes
+        if: success()
+        run: |
+          python - <<'PY'
+          import csv,json
+          from collections import Counter
+          from pathlib import Path
+          def read(name):
+              with open(name,encoding='utf-8',newline='') as h: return list(csv.DictReader(h,delimiter=';'))
+          a=read('reports/rsssf_extraido.csv')
+          b=read('reports/cruzamento_0001_0100.csv')
+          by=Counter(x['competition'] for x in a)
+          states=Counter(x['estado'] for x in b)
+          exc=[x for x in b if x['estado']!='confirmado']
+          with open('reports/excecoes.csv','w',newline='',encoding='utf-8') as h:
+              w=csv.DictWriter(h,fieldnames=b[0].keys(),delimiter=';')
+              w.writeheader();w.writerows(exc)
+          summary={'por_competicao':dict(by),'total_extraido':len(a),
+                   'estados_cruzamento':dict(states),'excecoes':len(exc),
+                   'elo_liberado':0}
+          Path('reports/resumo.json').write_text(json.dumps(summary,indent=2,ensure_ascii=False),encoding='utf-8')
+          print(json.dumps(summary,ensure_ascii=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rsssf-2002-auditoria
+          path: reports/
+          if-no-files-found: warn
