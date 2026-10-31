@@ -43,7 +43,7 @@ def parse_europe(text,competition,season_end,url):
         if match_key in seen:continue
         seen.add(match_key);per_round[round_no]=per_round.get(round_no,0)+1
         yield dict(home=home.strip(),away=away.strip(),goals_home=int(g1),goals_away=int(g2),
-                   date=day or "",competition=competition,category="PRINCIPAL",url=url,line=lineno,year=season_end)
+                   date=day or "",round=round_no,competition=competition,category="PRINCIPAL",url=url,line=lineno,year=season_end)
 
 def parse_fifa(text,year,url):
     for lineno,line in enumerate(text.splitlines(),1):
@@ -79,6 +79,10 @@ def run(manifest,out):
             row["parsed_games"]=len(got)
             row["missing_dates"]=sum(not r["date"] for r in got)
             row["unique_fixtures"]=len({(r["home"],r["away"]) for r in got})
+            if expected:
+                from collections import Counter
+                n=Counter(int(r["round"]) for r in got if r.get("round"))
+                row["underfull_rounds"]=",".join(f"{i}:{n[i]}" for i in range(1,39) if n[i]!=10)
             expected=380 if entry["competition"] in ("La Liga","Premier League","Serie A Italia") else None
             row["status"]=("COUNT_MISMATCH_QUARANTINE" if expected is not None and (len(got)!=expected or row["missing_dates"] or row["unique_fixtures"]!=expected) else "PARSED_NEEDS_REVIEW") if got else "NO_MATCHES_PARSED"
             refs+=got
