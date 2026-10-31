@@ -21,3 +21,13 @@ def test_matcher_quarantines_ambiguous_name():
     game={"equipe_1":"BOTAFOGO","equipe_2":"S. PAULO/SP","gols_1":"1","gols_2":"1","data_jogo":"17/02/2002"}
     result=next(match_games([game],[],registry=R))
     assert result["status_rsssf"]=="ALIAS_NAO_RESOLVIDO"
+
+def test_frequent_real_registry_examples():
+    from pathlib import Path
+    from loteca_fivethirtyeight.club_identity import read_registry
+    rows=read_registry(Path("auditoria/rsssf/club_registry.csv"))
+    assert resolve("ATLETICO/MG",2025,rows)=="BRA-MG-ATLETICO"
+    assert resolve("ATLETICO/GO",2025,rows)=="BRA-GO-ATLETICO"
+    assert resolve("BOTAFOGO/PB",2025,rows)=="BRA-PB-BOTAFOGO"
+    assert resolve("BOTAFOGO",2025,rows) is None
+    assert resolve("SAO  CAETANO/SP",2006,rows)=="BRA-SP-SAO-CAETANO"
