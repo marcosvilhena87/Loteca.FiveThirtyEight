@@ -38,7 +38,7 @@ def read_official(folder: Path) -> list[dict]:
 def cross_check(records: list[dict], fixtures: list[dict]) -> list[dict]:
     idx = defaultdict(list)
     for f in fixtures:
-        idx[(f["data_iso"], f["mandante_id"], f["visitante_id"])].append(f)
+        idx[(f["temporada"], f["data_iso"], f["mandante_id"], f["visitante_id"])].append(f)
     output = []
     for r in records:
         result = {x: "" for x in OUT_FIELDS}
@@ -58,7 +58,7 @@ def cross_check(records: list[dict], fixtures: list[dict]) -> list[dict]:
                           motivo="um ou dois IDs canônicos ainda não validados")
             output.append(result)
             continue
-        matches = idx.get((date, a.club_id, b.club_id), [])
+        matches = idx.get((date[:4], date, a.club_id, b.club_id), [])
         if len(matches) != 1:
             result.update(status_tabela="sem_correspondencia" if not matches else "ambiguo",
                           status_sumula="pendente",
