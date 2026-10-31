@@ -19,3 +19,17 @@ def test_parser():
     src="Round 6\n[Feb 17]\nFlamengo       2-4  São Paulo\n"
     data=list(parse_rsssf_text(src,competition="Rio-Sao Paulo",url="https://rsssfbrasil.com",year=2002))
     assert len(data)==1 and data[0]["date"]=="2002-02-17"
+
+def test_homonym_different_state():
+    game=sample()
+    game["equipe_1"]="BOTAFOGO/SP"
+    ref=reference()
+    ref["home"]="Botafogo/RJ"
+    assert next(match_games([game],[ref]))["status_rsssf"]=="PENDENTE_RSSSF"
+
+def test_homonym_without_state_requires_review():
+    game=sample()
+    game["equipe_1"]="BOTAFOGO/SP"
+    ref=reference()
+    ref["home"]="Botafogo"
+    assert next(match_games([game],[ref]))["status_rsssf"]=="PENDENTE_RSSSF"
